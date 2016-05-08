@@ -1,15 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import Orthofloat from './components/Orthofloat';
 
 const App = () => {
-  return (
-    <div>
-      welp I am the app
-    </div>
-  );
-};
-
-App.propTypes = {
-  children: PropTypes.element
+    return <Orthofloat />;
 };
 
 export default App;
