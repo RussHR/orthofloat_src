@@ -21,9 +21,11 @@
   "author": "Cory House",
   "license": "MIT",
   "dependencies": {
+    "normalize-css": "2.3.1",
     "object-assign": "4.0.1",
     "react": "15.0.1",
-    "react-dom": "15.0.1"
+    "react-dom": "15.0.1",
+    "three": "0.76.1"
   },
   "devDependencies": {
     "babel-cli": "6.7.7",
