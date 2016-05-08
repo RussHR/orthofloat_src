@@ -7,8 +7,11 @@ export default class Orthofloat extends Component {
     }
 
     initializeScene() {
+        this.windowHeight = window.innerHeight;
+        this.windowWidth = window.innerWidth;
+
         this.scene = new THREE.Scene();
-        this.camera = new THREE.OrthographicCamera(window.innerWidth / - 16, window.innerWidth / 16, window.innerHeight / 16, window.innerHeight / - 16, -200, 500);
+        this.camera = new THREE.OrthographicCamera(this.windowWidth / - 16, this.windowWidth / 16, this.windowHeight / 16, this.windowHeight / - 16, -200, 500);
         this.camera.position.x = 120;
         this.camera.position.z = 120;
         this.camera.lookAt(this.scene.position);
@@ -27,7 +30,7 @@ export default class Orthofloat extends Component {
 
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setSize(this.windowWidth, this.windowHeight);
 
         this.el.appendChild(this.renderer.domElement);
         this.renderer.render(this.scene, this.camera);
@@ -40,6 +43,11 @@ export default class Orthofloat extends Component {
         this.cube.rotation.x += 0.01;
         this.cube.rotation.y += 0.01;
         this.cube.rotation.z += 0.01;
+
+        if (this.cube.position.y > this.windowHeight / 16) {
+            this.cube.position.y -= this.windowHeight / 8;
+        }
+        this.cube.position.y += 0.1;
 
         requestAnimationFrame(() => this.renderAnimation());
         this.renderer.render(this.scene, this.camera);
