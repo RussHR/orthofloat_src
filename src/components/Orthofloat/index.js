@@ -7,8 +7,10 @@ export default class Orthofloat extends Component {
     }
 
     initializeScene() {
+        // set some common variables
         this.windowHeight = window.innerHeight;
         this.windowWidth = window.innerWidth;
+        this.cubeSize = 4;
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(this.windowWidth / - 16, this.windowWidth / 16, this.windowHeight / 16, this.windowHeight / - 16, -200, 500);
@@ -16,7 +18,7 @@ export default class Orthofloat extends Component {
         this.camera.position.z = 120;
         this.camera.lookAt(this.scene.position);
 
-        this.cubeGeometry = new THREE.CubeGeometry(4,4,4);
+        this.cubeGeometry = new THREE.CubeGeometry(this.cubeSize, this.cubeSize, this.cubeSize);
         this.cubeMaterial = new THREE.MeshLambertMaterial({color: 0x00ee22});
         this.cube = new THREE.Mesh(this.cubeGeometry, this.cubeMaterial);
         this.scene.add(this.cube);
@@ -44,8 +46,8 @@ export default class Orthofloat extends Component {
         this.cube.rotation.y += 0.01;
         this.cube.rotation.z += 0.01;
 
-        if (this.cube.position.y > this.windowHeight / 16) {
-            this.cube.position.y -= this.windowHeight / 8;
+        if (this.cube.position.y > (this.windowHeight / 16 + this.cubeSize * 3)) {
+            this.cube.position.y -= (this.windowHeight / 8 + this.cubeSize * 3);
         }
         this.cube.position.y += 0.1;
 
