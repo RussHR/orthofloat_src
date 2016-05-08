@@ -15,7 +15,6 @@ export default class Orthofloat extends Component {
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(this.windowWidth / - 16, this.windowWidth / 16, this.windowHeight / 16, this.windowHeight / - 16, -200, 500);
         this.camera.position.x = 120;
-        this.camera.position.z = 120;
         this.camera.lookAt(this.scene.position);
 
         this.cubeGeometry = new THREE.CubeGeometry(this.cubeSize, this.cubeSize, this.cubeSize);
@@ -24,7 +23,7 @@ export default class Orthofloat extends Component {
         this.scene.add(this.cube);
 
         this.directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
-        this.directionalLight.position.set(-20, 40, 60);
+        this.directionalLight.position.set(60, 60, 60);
         this.scene.add(this.directionalLight);
 
         this.ambientLight = new THREE.AmbientLight(0x292929);
