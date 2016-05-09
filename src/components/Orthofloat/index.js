@@ -47,6 +47,8 @@ export default class Orthofloat extends Component {
             cube.position.y = randomWithRange(this.windowHeight / 16, this.windowHeight / -16);
             cube.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
             cube.rotation.set(randomWithRange(0, Math.PI), randomWithRange(0, Math.PI), randomWithRange(0, Math.PI));
+            cube.yVelocity = randomWithRange(0.03, 0.1);
+            cube.zVelocity = randomWithRange(-0.01, 0.01);
             this.cubes.push(cube);
             this.scene.add(cube);
         }
@@ -62,8 +64,11 @@ export default class Orthofloat extends Component {
             if (cube.position.y > (this.windowHeight / 16 + this.cubeSize * 3)) {
                 cube.position.y -= (this.windowHeight / 8 + this.cubeSize * 6);
                 cube.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
+                cube.yVelocity = randomWithRange(0.03, 0.1);
+                cube.zVelocity = randomWithRange(-0.01, 0.01);
             }
-            cube.position.y += 0.1;
+            cube.position.y += cube.yVelocity;
+            cube.position.z += cube.zVelocity;
      }
 
         requestAnimationFrame(() => this.renderAnimation());
