@@ -47,6 +47,11 @@ export default class Orthofloat extends Component {
             cube.position.y = randomWithRange(this.windowHeight / 16, this.windowHeight / -16);
             cube.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
             cube.rotation.set(randomWithRange(0, Math.PI), randomWithRange(0, Math.PI), randomWithRange(0, Math.PI));
+            cube.rotationSpeed = {
+                x: randomWithRange(-0.01, 0.01),
+                y: randomWithRange(-0.01, 0.01),
+                z: randomWithRange(-0.01, 0.01)
+            };
             cube.yVelocity = randomWithRange(0.03, 0.1);
             cube.zVelocity = randomWithRange(-0.01, 0.01);
             this.cubes.push(cube);
@@ -56,19 +61,30 @@ export default class Orthofloat extends Component {
 
     renderAnimation() {
         for (const cube of this.cubes) {
-            // rotate the cube around its axes
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-            cube.rotation.z += 0.01;
-
+            // if cube is above top of window
             if (cube.position.y > (this.windowHeight / 16 + this.cubeSize * 3)) {
+                // put it below the bottom of the window and give it a random z position
                 cube.position.y -= (this.windowHeight / 8 + this.cubeSize * 6);
                 cube.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
+
+                // give it new velocities
                 cube.yVelocity = randomWithRange(0.03, 0.1);
                 cube.zVelocity = randomWithRange(-0.01, 0.01);
+
+                // give the cube new rotation speeds
+                for (const axis of ['x', 'y', 'z']) {
+                    cube.rotationSpeed[axis] = randomWithRange(-0.01, 0.01);
+                }
             }
+
+            // translate the cube
             cube.position.y += cube.yVelocity;
             cube.position.z += cube.zVelocity;
+
+            // rotate the cube around its axes
+            for (const axis of ['x', 'y', 'z']) {
+                cube.rotation[axis] += cube.rotationSpeed[axis];
+            }
      }
 
         requestAnimationFrame(() => this.renderAnimation());
