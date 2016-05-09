@@ -5,27 +5,18 @@ import { randomWithRange } from '../../businessLogic/mathHelpers';
 
 export default class Orthofloat extends Component {
     componentDidMount() {
-        this.initializeScene();
+        this.initializeAnimation();
     }
 
-    initializeScene() {
+    initializeAnimation() {
         // set some common variables
         this.windowHeight = window.innerHeight;
         this.windowWidth = window.innerWidth;
 
         this.scene = new THREE.Scene();
-        this.camera = new THREE.OrthographicCamera(this.windowWidth / - 16, this.windowWidth / 16, this.windowHeight / 16, this.windowHeight / - 16, -200, 500);
-        this.camera.position.x = 120;
-        this.camera.lookAt(this.scene.position);
 
-        this.addCubesToScene();
-
-        this.directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
-        this.directionalLight.position.set(60, 60, 60);
-        this.scene.add(this.directionalLight);
-
-        this.ambientLight = new THREE.AmbientLight(0x4B4B4B);
-        this.scene.add(this.ambientLight);
+        this.initializeCamera();
+        this.initializeCubes();
 
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
@@ -37,7 +28,23 @@ export default class Orthofloat extends Component {
         this.renderAnimation();
     }
 
-    addCubesToScene() {
+    initializeCamera() {
+        this.camera = new THREE.OrthographicCamera(this.windowWidth / - 16, this.windowWidth / 16, this.windowHeight / 16, this.windowHeight / - 16, -200, 500);
+        this.camera.position.x = 120;
+        this.camera.lookAt(this.scene.position);
+
+    }
+
+    initializeLights() {
+        this.directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
+        this.directionalLight.position.set(60, 60, 60);
+        this.scene.add(this.directionalLight);
+
+        this.ambientLight = new THREE.AmbientLight(0x4B4B4B);
+        this.scene.add(this.ambientLight);
+    }
+
+    initializeCubes() {
         this.cubeSize = 4;
         this.cubeGeometry = new THREE.CubeGeometry(this.cubeSize, this.cubeSize, this.cubeSize);
         this.cubeMaterial = new THREE.MeshLambertMaterial({color: 0x00ee22});
