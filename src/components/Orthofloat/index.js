@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import THREE from 'three';
 
+import { randomWithRange } from '../../businessLogic/mathHelpers';
+
 export default class Orthofloat extends Component {
     componentDidMount() {
         this.initializeScene();
@@ -47,6 +49,7 @@ export default class Orthofloat extends Component {
 
         if (this.cube.position.y > (this.windowHeight / 16 + this.cubeSize * 3)) {
             this.cube.position.y -= (this.windowHeight / 8 + this.cubeSize * 3);
+            this.cube.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
         }
         this.cube.position.y += 0.1;
 
