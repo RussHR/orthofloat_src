@@ -1,7 +1,30 @@
 #menu {
     position: fixed;
     right: 0;
-    padding: 8px;
-    background-color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
+
+    &.is-open {
+        width: 100%;
+        background-color: white;
+
+        .menu-open {
+            display: none;
+        }
+        .menu-contents {
+            display: block;
+        }
+    }
+    .menu-open {
+        padding: 8px;
+        background-color: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+    }
+    .menu-contents {
+        display: none;
+    }
+    .menu-close {
+        position: absolute;
+        right: 0;
+        padding: 16px;
+        cursor: pointer;
+    }
 }

@@ -21,6 +21,7 @@
   "author": "Cory House",
   "license": "MIT",
   "dependencies": {
+    "classnames": "2.2.5",
     "normalize-css": "2.3.1",
     "object-assign": "4.0.1",
     "react": "15.0.1",
