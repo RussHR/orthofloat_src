@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import autoprefixer from 'autoprefixer';
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),
@@ -33,8 +34,9 @@ export default {
       {
         test: /(\.css|\.scss)$/,
         include: path.join(__dirname, 'src'),
-        loader: ExtractTextPlugin.extract("css?sourceMap!sass?sourceMap")
+        loader: ExtractTextPlugin.extract("css?sourceMap!postcss!sass?sourceMap")
       }
     ]
-  }
+  },
+  postcss: ()=> [autoprefixer]
 };

@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import path from 'path';
+import autoprefixer from 'autoprefixer';
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('development'),
@@ -30,7 +31,8 @@ export default {
       {test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel']},
       {test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file']},
       {test: /\.ico$/, loader: 'file-loader?name=[name].[ext]'},
-      {test: /(\.css|\.scss)$/, loaders: ['style', 'css?sourceMap', 'sass?sourceMap']}
+      {test: /(\.css|\.scss)$/, loaders: ['style', 'css?sourceMap', 'postcss', 'sass?sourceMap']}
     ]
-  }
+  },
+  postcss: () => [autoprefixer]
 };
