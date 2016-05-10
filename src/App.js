@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Orthofloat from './components/Orthofloat';
 
-const App = () => {
-    return <Orthofloat />;
+export default class App extends Component {
+    render() {
+        return (
+            <div>
+                <Orthofloat />
+            </div>
+        );
+    }
 };
-
-export default App;
