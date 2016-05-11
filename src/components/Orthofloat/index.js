@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import THREE from 'three';
 
 import { randomWithRange } from '../../businessLogic/mathHelpers';
@@ -95,3 +95,19 @@ export default class Orthofloat extends Component {
         return <div ref={c => this.el = c} />;
     }
 }
+
+Orthofloat.propTypes = {
+    color: PropTypes.shape({
+        h: PropTypes.number.isRequired,
+        s: PropTypes.number.isRequired,
+        l: PropTypes.number.isRequired
+    })
+};
+
+Orthofloat.defaultProps = {
+    color: {
+        h: 0.35714285714285715,
+        s: 1,
+        l: 0.4666666666666667
+    }
+};
