@@ -40,7 +40,9 @@ export default class Orthofloat extends Component {
     addCubesToScene() {
         this.cubeSize = 4;
         this.cubeGeometry = new THREE.CubeGeometry(this.cubeSize, this.cubeSize, this.cubeSize);
-        this.cubeMaterial = new THREE.MeshLambertMaterial({color: 0x00ee22});
+        const colorAsHSL = new THREE.Color();
+        colorAsHSL.setHSL(this.props.color.h, this.props.color.s, this.props.color.l);
+        this.cubeMaterial = new THREE.MeshLambertMaterial({color: colorAsHSL.getHex()});
         this.cubes = [];
         for (let i = 0; i < 20; i++) {
             const cube = new THREE.Mesh(this.cubeGeometry, this.cubeMaterial);
