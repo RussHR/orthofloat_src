@@ -19,12 +19,24 @@ export default class App extends Component {
         this.setState({ menuIsOpen: !this.state.menuIsOpen });
     }
 
+    toggleColor() {
+        this.setState({
+            color: {
+                h: Math.random(),
+                s: 1,
+                l: 0.4666666666666667
+            }
+        });
+    }
+
     render() {
         const { menuIsOpen, color } = this.state;
 
         return (
             <div>
-                <Menu isOpen={menuIsOpen} onClick={() => this.toggleMenu()} />
+                <Menu isOpen={menuIsOpen}
+                      onClickToggleMenu={() => this.toggleMenu()}
+                      onClickToggleColor={() => this.toggleColor()} />
                 <Orthofloat color={color} />
             </div>
         );

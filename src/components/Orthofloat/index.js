@@ -8,6 +8,10 @@ export default class Orthofloat extends Component {
         this.initializeScene();
     }
 
+    componentWillReceiveProps({ color }) {
+        // use tween to set the new color
+    }
+
     initializeScene() {
         // set some common variables
         this.windowHeight = window.innerHeight;
