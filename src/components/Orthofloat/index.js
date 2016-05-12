@@ -12,12 +12,11 @@ export default class Orthofloat extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.hue !== this.props.hue) {
             const { color } = this.cubeMaterial;
-            const colorSL = { s: this.colorSaturation, l: this.colorLightness };
-            const tween = new TWEEN.Tween({ h: this.props.hue})
-                    .to({ h: nextProps.hue }, 1000)
-                    .onUpdate(function() {
-                        color.setHSL(this.h, colorSL.s, colorSL.l);
-                    })
+            const newColor = new THREE.Color();
+            newColor.setHSL(nextProps.hue, this.colorSaturation, this.colorLightness);
+            const tween = new TWEEN.Tween(color)
+                    .to(newColor, 1000)
+                    .easing(TWEEN.Easing.Quadratic.Out)
                     .start();
         }
     }
