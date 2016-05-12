@@ -10,7 +10,7 @@ export default class App extends Component {
             color: {
                 h: 0.35714285714285715,
                 s: 1,
-                l: 0.4666666666666667
+                l: 0.7
             }
         };
     }
@@ -24,7 +24,7 @@ export default class App extends Component {
             color: {
                 h: Math.random(),
                 s: 1,
-                l: 0.4666666666666667
+                l: 0.7
             }
         });
     }

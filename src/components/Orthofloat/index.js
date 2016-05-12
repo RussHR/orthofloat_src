@@ -9,7 +9,7 @@ export default class Orthofloat extends Component {
     }
 
     componentWillReceiveProps({ color }) {
-        // use tween to set the new color
+        this.cubeMaterial.color.setHSL(color.h, color.s, color.l);
     }
 
     initializeScene() {
@@ -32,7 +32,7 @@ export default class Orthofloat extends Component {
         this.scene.add(this.ambientLight);
 
         this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
+        this.renderer.setClearColor(new THREE.Color(0xffffff, 1.0));
         this.renderer.setSize(this.windowWidth, this.windowHeight);
 
         this.el.appendChild(this.renderer.domElement);
@@ -43,13 +43,13 @@ export default class Orthofloat extends Component {
 
     addCubesToScene() {
         this.cubeSize = 4;
-        this.cubeGeometry = new THREE.CubeGeometry(this.cubeSize, this.cubeSize, this.cubeSize);
+        const cubeGeometry = new THREE.CubeGeometry(this.cubeSize, this.cubeSize, this.cubeSize);
         const colorAsHSL = new THREE.Color();
         colorAsHSL.setHSL(this.props.color.h, this.props.color.s, this.props.color.l);
         this.cubeMaterial = new THREE.MeshLambertMaterial({color: colorAsHSL.getHex()});
         this.cubes = [];
         for (let i = 0; i < 20; i++) {
-            const cube = new THREE.Mesh(this.cubeGeometry, this.cubeMaterial);
+            const cube = new THREE.Mesh(cubeGeometry, this.cubeMaterial);
             cube.position.y = randomWithRange(this.windowHeight / 16, this.windowHeight / -16);
             cube.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
             cube.rotation.set(randomWithRange(0, Math.PI), randomWithRange(0, Math.PI), randomWithRange(0, Math.PI));
