@@ -9,9 +9,16 @@ export default class Orthofloat extends Component {
         this.initializeScene();
     }
 
-    componentWillReceiveProps({ hue }) {
-        if (hue !== this.props.hue) {
-            this.cubeMaterial.color.setHSL(hue, this.colorSaturation, this.colorLightness);
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.hue !== this.props.hue) {
+            const { color } = this.cubeMaterial;
+            const colorSL = { s: this.colorSaturation, l: this.colorLightness };
+            const tween = new TWEEN.Tween({ h: this.props.hue})
+                    .to({ h: nextProps.hue }, 1000)
+                    .onUpdate(function() {
+                        color.setHSL(this.h, colorSL.s, colorSL.l);
+                    })
+                    .start();
         }
     }
 
@@ -99,6 +106,7 @@ export default class Orthofloat extends Component {
      }
 
         requestAnimationFrame(() => this.renderAnimation());
+        TWEEN.update();
         this.renderer.render(this.scene, this.camera);
     }
 
