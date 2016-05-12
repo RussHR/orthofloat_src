@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import THREE from 'three';
+import TWEEN from 'tween.js';
 
 import { randomWithRange } from '../../businessLogic/mathHelpers';
 
@@ -8,8 +9,10 @@ export default class Orthofloat extends Component {
         this.initializeScene();
     }
 
-    componentWillReceiveProps({ color }) {
-        this.cubeMaterial.color.setHSL(color.h, color.s, color.l);
+    componentWillReceiveProps({ hue }) {
+        if (hue !== this.props.hue) {
+            this.cubeMaterial.color.setHSL(hue, this.colorSaturation, this.colorLightness);
+        }
     }
 
     initializeScene() {
@@ -45,7 +48,9 @@ export default class Orthofloat extends Component {
         this.cubeSize = 4;
         const cubeGeometry = new THREE.CubeGeometry(this.cubeSize, this.cubeSize, this.cubeSize);
         const colorAsHSL = new THREE.Color();
-        colorAsHSL.setHSL(this.props.color.h, this.props.color.s, this.props.color.l);
+        this.colorSaturation = 1;
+        this.colorLightness = 0.7;
+        colorAsHSL.setHSL(this.props.hue, this.colorSaturation, this.colorLightness);
         this.cubeMaterial = new THREE.MeshLambertMaterial({color: colorAsHSL.getHex()});
         this.cubes = [];
         for (let i = 0; i < 20; i++) {
@@ -103,17 +108,9 @@ export default class Orthofloat extends Component {
 }
 
 Orthofloat.propTypes = {
-    color: PropTypes.shape({
-        h: PropTypes.number.isRequired,
-        s: PropTypes.number.isRequired,
-        l: PropTypes.number.isRequired
-    })
+    hue: PropTypes.number.isRequired
 };
 
 Orthofloat.defaultProps = {
-    color: {
-        h: 0.35714285714285715,
-        s: 1,
-        l: 0.4666666666666667
-    }
+    hue: 0.35714285714285715
 };

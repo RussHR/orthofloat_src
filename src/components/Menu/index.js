@@ -23,7 +23,7 @@ export default class Menu extends Component {
                         click <a href="https://github.com/RussHR/orthofloat_src" target="_blank">here</a> for the code.
                     </p>
                     <button onClick={onClickToggleColor}>
-                        Change Color
+                        change color
                     </button>
                 </div>
             </div>
