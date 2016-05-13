@@ -21,24 +21,26 @@ export default class Orthofloat extends Component {
         }
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.windowResizeFunc);
+    }
+
     initializeScene() {
-        // set some common variables
-        this.windowHeight = window.innerHeight;
-        this.windowWidth = window.innerWidth;
+        this.setWindowHeightAndWidth();
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.OrthographicCamera(this.windowWidth / - 16, this.windowWidth / 16, this.windowHeight / 16, this.windowHeight / - 16, -200, 500);
         this.camera.position.x = 120;
         this.camera.lookAt(this.scene.position);
 
-        this.addCubesToScene();
+        this.initializeCubes();
 
-        this.directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
-        this.directionalLight.position.set(60, 60, 60);
-        this.scene.add(this.directionalLight);
+        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
+        directionalLight.position.set(60, 60, 60);
+        this.scene.add(directionalLight);
 
-        this.ambientLight = new THREE.AmbientLight(0x4B4B4B);
-        this.scene.add(this.ambientLight);
+        const ambientLight = new THREE.AmbientLight(0x4B4B4B);
+        this.scene.add(ambientLight);
 
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setClearColor(new THREE.Color(0xffffff, 1.0));
@@ -47,10 +49,28 @@ export default class Orthofloat extends Component {
         this.el.appendChild(this.renderer.domElement);
         this.renderer.render(this.scene, this.camera);
 
+        this.windowResizeFunc = () => this.onWindowResize();
+        window.addEventListener('resize', this.windowResizeFunc);
         this.renderAnimation();
     }
 
-    addCubesToScene() {
+    setWindowHeightAndWidth() {
+        this.windowHeight = window.innerHeight;
+        this.windowWidth = window.innerWidth;
+    }
+
+    onWindowResize() {
+        this.setWindowHeightAndWidth();
+        this.renderer.setSize(this.windowWidth, this.windowHeight);
+
+        this.camera.left = this.windowWidth / -16;
+        this.camera.right = this.windowWidth / 16;
+        this.camera.top = this.windowHeight / 16;
+        this.camera.bottom = this.windowHeight / -16;
+        this.camera.updateProjectionMatrix();
+    }
+
+    initializeCubes() {
         this.cubeSize = 4;
         const cubeGeometry = new THREE.CubeGeometry(this.cubeSize, this.cubeSize, this.cubeSize);
         const colorAsHSL = new THREE.Color();
