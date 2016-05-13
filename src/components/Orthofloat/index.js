@@ -43,13 +43,7 @@ export default class Orthofloat extends Component {
         this.camera.lookAt(this.scene.position);
 
         this.initializeCubes();
-
-        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
-        directionalLight.position.set(60, 60, 60);
-        this.scene.add(directionalLight);
-
-        const ambientLight = new THREE.AmbientLight(0x4B4B4B);
-        this.scene.add(ambientLight);
+        this.initializeLights();
 
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setClearColor(new THREE.Color(0xffffff, 1.0));
@@ -66,6 +60,15 @@ export default class Orthofloat extends Component {
     setWindowHeightAndWidth() {
         this.windowHeight = window.innerHeight;
         this.windowWidth = window.innerWidth;
+    }
+
+    initializeLights() {
+        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
+        directionalLight.position.set(60, 60, 60);
+        this.scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight(0x4B4B4B);
+        this.scene.add(ambientLight);
     }
 
     onWindowResize() {
