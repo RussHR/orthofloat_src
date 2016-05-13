@@ -30,6 +30,23 @@ export default class Orthofloat extends Component {
 
         this.scene = new THREE.Scene();
 
+        this.initializeCamera();
+        this.initializeCubes();
+        this.initializeLights();
+        this.initializeRenderer();
+
+        this.windowResizeFunc = () => this.onWindowResize();
+        window.addEventListener('resize', this.windowResizeFunc);
+
+        this.renderAnimation();
+    }
+
+    setWindowHeightAndWidth() {
+        this.windowHeight = window.innerHeight;
+        this.windowWidth = window.innerWidth;
+    }
+
+    initializeCamera() {
         this.camFactor = 16;
         this.camera = new THREE.OrthographicCamera(
             this.windowWidth / - this.camFactor,
@@ -41,25 +58,6 @@ export default class Orthofloat extends Component {
         );
         this.camera.position.x = 120;
         this.camera.lookAt(this.scene.position);
-
-        this.initializeCubes();
-        this.initializeLights();
-
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setClearColor(new THREE.Color(0xffffff, 1.0));
-        this.renderer.setSize(this.windowWidth, this.windowHeight);
-
-        this.el.appendChild(this.renderer.domElement);
-        this.renderer.render(this.scene, this.camera);
-
-        this.windowResizeFunc = () => this.onWindowResize();
-        window.addEventListener('resize', this.windowResizeFunc);
-        this.renderAnimation();
-    }
-
-    setWindowHeightAndWidth() {
-        this.windowHeight = window.innerHeight;
-        this.windowWidth = window.innerWidth;
     }
 
     initializeLights() {
@@ -69,17 +67,6 @@ export default class Orthofloat extends Component {
 
         const ambientLight = new THREE.AmbientLight(0x4B4B4B);
         this.scene.add(ambientLight);
-    }
-
-    onWindowResize() {
-        this.setWindowHeightAndWidth();
-        this.renderer.setSize(this.windowWidth, this.windowHeight);
-
-        this.camera.left = this.windowWidth / -this.camFactor;
-        this.camera.right = this.windowWidth / this.camFactor;
-        this.camera.top = this.windowHeight / this.camFactor;
-        this.camera.bottom = this.windowHeight / -this.camFactor;
-        this.camera.updateProjectionMatrix();
     }
 
     initializeCubes() {
@@ -106,6 +93,26 @@ export default class Orthofloat extends Component {
             this.cubes.push(cube);
             this.scene.add(cube);
         }
+    }
+
+    initializeRenderer() {
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.setClearColor(new THREE.Color(0xffffff, 1.0));
+        this.renderer.setSize(this.windowWidth, this.windowHeight);
+
+        this.el.appendChild(this.renderer.domElement);
+        this.renderer.render(this.scene, this.camera);
+    }
+
+    onWindowResize() {
+        this.setWindowHeightAndWidth();
+        this.renderer.setSize(this.windowWidth, this.windowHeight);
+
+        this.camera.left = this.windowWidth / -this.camFactor;
+        this.camera.right = this.windowWidth / this.camFactor;
+        this.camera.top = this.windowHeight / this.camFactor;
+        this.camera.bottom = this.windowHeight / -this.camFactor;
+        this.camera.updateProjectionMatrix();
     }
 
     renderAnimation() {
