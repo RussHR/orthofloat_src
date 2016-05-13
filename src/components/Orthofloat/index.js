@@ -29,7 +29,16 @@ export default class Orthofloat extends Component {
         this.setWindowHeightAndWidth();
 
         this.scene = new THREE.Scene();
-        this.camera = new THREE.OrthographicCamera(this.windowWidth / - 16, this.windowWidth / 16, this.windowHeight / 16, this.windowHeight / - 16, -200, 500);
+
+        this.camFactor = 16;
+        this.camera = new THREE.OrthographicCamera(
+            this.windowWidth / - this.camFactor,
+            this.windowWidth / this.camFactor,
+            this.windowHeight / this.camFactor,
+            this.windowHeight / - this.camFactor,
+            -200,
+            500
+        );
         this.camera.position.x = 120;
         this.camera.lookAt(this.scene.position);
 
@@ -63,10 +72,10 @@ export default class Orthofloat extends Component {
         this.setWindowHeightAndWidth();
         this.renderer.setSize(this.windowWidth, this.windowHeight);
 
-        this.camera.left = this.windowWidth / -16;
-        this.camera.right = this.windowWidth / 16;
-        this.camera.top = this.windowHeight / 16;
-        this.camera.bottom = this.windowHeight / -16;
+        this.camera.left = this.windowWidth / -this.camFactor;
+        this.camera.right = this.windowWidth / this.camFactor;
+        this.camera.top = this.windowHeight / this.camFactor;
+        this.camera.bottom = this.windowHeight / -this.camFactor;
         this.camera.updateProjectionMatrix();
     }
 
