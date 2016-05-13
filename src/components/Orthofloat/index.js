@@ -7,6 +7,9 @@ import { randomWithRange } from '../../businessLogic/mathHelpers';
 export default class Orthofloat extends Component {
     componentDidMount() {
         this.initializeScene();
+
+        this.windowResizeFunc = () => this.onWindowResize();
+        window.addEventListener('resize', this.windowResizeFunc);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -35,9 +38,6 @@ export default class Orthofloat extends Component {
         this.initializeLights();
         this.initializeRenderer();
 
-        this.windowResizeFunc = () => this.onWindowResize();
-        window.addEventListener('resize', this.windowResizeFunc);
-
         this.renderAnimation();
     }
 
@@ -58,15 +58,6 @@ export default class Orthofloat extends Component {
         );
         this.camera.position.x = 120;
         this.camera.lookAt(this.scene.position);
-    }
-
-    initializeLights() {
-        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
-        directionalLight.position.set(60, 60, 60);
-        this.scene.add(directionalLight);
-
-        const ambientLight = new THREE.AmbientLight(0x4B4B4B);
-        this.scene.add(ambientLight);
     }
 
     initializeCubes() {
@@ -93,6 +84,15 @@ export default class Orthofloat extends Component {
             this.cubes.push(cube);
             this.scene.add(cube);
         }
+    }
+
+    initializeLights() {
+        const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
+        directionalLight.position.set(60, 60, 60);
+        this.scene.add(directionalLight);
+
+        const ambientLight = new THREE.AmbientLight(0x4B4B4B);
+        this.scene.add(ambientLight);
     }
 
     initializeRenderer() {
