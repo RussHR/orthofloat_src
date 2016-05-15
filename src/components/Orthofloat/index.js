@@ -4,6 +4,8 @@ import TWEEN from 'tween.js';
 
 import { randomWithRange } from '../../businessLogic/mathHelpers';
 
+import './orthofloat.scss';
+
 export default class Orthofloat extends Component {
     componentDidMount() {
         this.initializeScene();
@@ -149,7 +151,7 @@ export default class Orthofloat extends Component {
     }
 
     render() {
-        return <div ref={c => this.el = c} />;
+        return <div className="orthofloat-wrapper" ref={c => this.el = c} />;
     }
 }
 
