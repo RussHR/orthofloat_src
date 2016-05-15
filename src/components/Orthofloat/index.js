@@ -11,7 +11,7 @@ export default class Orthofloat extends Component {
     componentDidMount() {
         this.initializeScene();
 
-        this.windowResizeFunc = lodashThrottle(this.onWindowResize, 16.667);
+        this.windowResizeFunc = lodashThrottle(() => this.onWindowResize(), 16.667);
         window.addEventListener('resize', this.windowResizeFunc);
     }
 
