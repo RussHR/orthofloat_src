@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import THREE from 'three';
 import TWEEN from 'tween.js';
+import lodashThrottle from 'lodash/throttle';
 
 import { randomWithRange } from '../../businessLogic/mathHelpers';
 
@@ -10,7 +11,7 @@ export default class Orthofloat extends Component {
     componentDidMount() {
         this.initializeScene();
 
-        this.windowResizeFunc = () => this.onWindowResize();
+        this.windowResizeFunc = lodashThrottle(this.onWindowResize, 16.667);
         window.addEventListener('resize', this.windowResizeFunc);
     }
 
