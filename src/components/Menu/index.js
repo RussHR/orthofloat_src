@@ -5,7 +5,7 @@ import './menu.scss';
 
 export default class Menu extends Component {
     render() {
-        const { isOpen, onClickToggleMenu, onClickToggleColor } = this.props;
+        const { isOpen, onClickToggleMenu, onClickToggleColor, onClickToggleStats } = this.props;
         const menuClassNames = classNames({ 'is-open': isOpen });
 
         return (
@@ -25,6 +25,11 @@ export default class Menu extends Component {
                     <button onClick={onClickToggleColor}>
                         change color
                     </button>
+                    <br />
+                    <br />
+                    <button onClick={onClickToggleStats}>
+                        toggle stats
+                    </button>
                 </div>
             </div>
         );
@@ -34,5 +39,6 @@ export default class Menu extends Component {
 Menu.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClickToggleMenu: PropTypes.func.isRequired,
-    onClickToggleColor: PropTypes.func.isRequired
+    onClickToggleColor: PropTypes.func.isRequired,
+    onClickToggleStats: PropTypes.func.isRequired
 };

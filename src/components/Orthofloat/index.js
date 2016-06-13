@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 import THREE from 'three';
 import TWEEN from 'tween.js';
+import Stats from 'stats.js';
 import lodashThrottle from 'lodash/throttle';
 
 import { randomWithRange } from '../../businessLogic/mathHelpers';
@@ -40,6 +42,10 @@ export default class Orthofloat extends Component {
         this.initializeMeshes();
         this.initializeLights();
         this.initializeRenderer();
+
+        if (this.props.initializeWithStats) {
+            this.initializeStats();
+        }
 
         this.renderAnimation();
     }
@@ -129,6 +135,11 @@ export default class Orthofloat extends Component {
         this.renderer.render(this.scene, this.camera);
     }
 
+    initializeStats() {
+        this.stats = new Stats();
+        this.el.appendChild(this.stats.dom);
+    }
+
     onWindowResize() {
         this.setWindowHeightAndWidth();
         this.renderer.setSize(this.windowWidth, this.windowHeight);
@@ -141,6 +152,10 @@ export default class Orthofloat extends Component {
     }
 
     renderAnimation() {
+        if (this.stats && this.props.showStats) {
+            this.stats.begin();
+        }
+
         for (let mesh of [...this.cubes, ...this.tetras]) {
             // if cube is above top of window
             if (mesh.position.y > (this.windowHeight / 16 + this.meshSize * 3)) {
@@ -168,20 +183,30 @@ export default class Orthofloat extends Component {
             }
      }
 
-        requestAnimationFrame(() => this.renderAnimation());
         TWEEN.update();
         this.renderer.render(this.scene, this.camera);
+
+        if (this.stats && this.props.showStats) {
+            this.stats.end();
+        }
+
+        requestAnimationFrame(() => this.renderAnimation());
     }
 
     render() {
-        return <div className="orthofloat-wrapper" ref={c => this.el = c} />;
+        const className = classNames('orthofloat-wrapper', { 'show-stats': this.props.showStats });
+        return <div className={className} ref={c => this.el = c} />;
     }
 }
 
 Orthofloat.propTypes = {
-    hue: PropTypes.number.isRequired
+    hue: PropTypes.number,
+    initializeWithStats: PropTypes.bool,
+    showStats: PropTypes.bool
 };
 
 Orthofloat.defaultProps = {
-    hue: 0.35714285714285715
+    hue: 0.35714285714285715,
+    initializeWithStats: false,
+    showStats: false
 };

@@ -1,3 +1,13 @@
-.orthofloat-wrapper canvas {
-    display: block;
+.orthofloat-wrapper {
+    > div {
+        display: none;
+    }
+
+    > canvas {
+        display: block;
+    }
+
+    &.show-stats > div {
+        display: block;
+    }
 }
