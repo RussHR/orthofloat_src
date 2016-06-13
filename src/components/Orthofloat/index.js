@@ -141,30 +141,30 @@ export default class Orthofloat extends Component {
     }
 
     renderAnimation() {
-        for (let cube of [...this.cubes, ...this.tetras]) {
+        for (let mesh of [...this.cubes, ...this.tetras]) {
             // if cube is above top of window
-            if (cube.position.y > (this.windowHeight / 16 + this.meshSize * 3)) {
+            if (mesh.position.y > (this.windowHeight / 16 + this.meshSize * 3)) {
                 // put it below the bottom of the window and give it a random z position
-                cube.position.y -= (this.windowHeight / 8 + this.meshSize * 6);
-                cube.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
+                mesh.position.y -= (this.windowHeight / 8 + this.meshSize * 6);
+                mesh.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
 
                 // give it new velocities
-                cube.yVelocity = randomWithRange(0.03, 0.1);
-                cube.zVelocity = randomWithRange(-0.01, 0.01);
+                mesh.yVelocity = randomWithRange(0.03, 0.1);
+                mesh.zVelocity = randomWithRange(-0.01, 0.01);
 
-                // give the cube new rotation speeds
+                // give the mesh new rotation speeds
                 for (const axis of ['x', 'y', 'z']) {
-                    cube.rotationSpeed[axis] = randomWithRange(-0.01, 0.01);
+                    mesh.rotationSpeed[axis] = randomWithRange(-0.01, 0.01);
                 }
             }
 
-            // translate the cube
-            cube.position.y += cube.yVelocity;
-            cube.position.z += cube.zVelocity;
+            // translate the mesh
+            mesh.position.y += mesh.yVelocity;
+            mesh.position.z += mesh.zVelocity;
 
-            // rotate the cube around its axes
+            // rotate the mesh around its axes
             for (const axis of ['x', 'y', 'z']) {
-                cube.rotation[axis] += cube.rotationSpeed[axis];
+                mesh.rotation[axis] += mesh.rotationSpeed[axis];
             }
      }
 
