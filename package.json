@@ -1,7 +1,12 @@
 {
-  "name": "react-slingshot",
-  "version": "3.0.1",
-  "description": "Starter kit for creating apps with React and Redux",
+  "name": "orthofloat",
+  "version": "0.0.1",
+  "description": "floating shape React component using three.js",
+  "main": "./dist/bundle.js",
+  "files": [
+    "dist/bundle.js",
+    "dist/bundle.js.map"
+  ],
   "scripts": {
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message remove-dist",
@@ -18,7 +23,7 @@
     "test": "mocha tools/testSetup.js --reporter progress",
     "test:watch": "npm run test -- --watch"
   },
-  "author": "Cory House",
+  "author": "Russ Rinzler",
   "license": "MIT",
   "dependencies": {
     "classnames": "2.2.5",
@@ -75,19 +80,14 @@
     "react",
     "reactjs",
     "react-router",
-    "hot",
-    "reload",
-    "hmr",
-    "live",
-    "edit",
     "webpack",
     "redux",
-    "flux",
-    "boilerplate",
-    "starter"
+    "three.js",
+    "three",
+    "webgl"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/coryhouse/react-slingshot"
+    "url": "https://github.com/RussHR/orthofloat_src"
   }
 }

@@ -19,7 +19,7 @@ export default class Menu extends Component {
                     </div>
                     <h1>orthofloat</h1>
                     <p>
-                        made by <a href="https://www.instagram.com/russ_rinzler/" target="_blank">Russ Rinzler</a>.
+                        made by <a href="http://www.russrinzler.com" target="_blank">Russ Rinzler</a>.
                         click <a href="https://github.com/RussHR/orthofloat_src" target="_blank">here</a> for the code.
                     </p>
                     <button onClick={onClickToggleColor}>

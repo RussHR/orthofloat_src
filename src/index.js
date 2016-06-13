@@ -8,3 +8,5 @@ require('normalize-css');
 import './styles/styles.scss';
 
 render(<App />, document.getElementById('app'));
+
+module.exports = require('./components/orthofloat');

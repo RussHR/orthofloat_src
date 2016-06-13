@@ -17,7 +17,9 @@ export default {
   output: {
     path: __dirname + '/dist', // Note: Physical files are only output by the production build task `npm run build`.
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    library: 'orthofloat',
+    libraryTarget: 'umd'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
