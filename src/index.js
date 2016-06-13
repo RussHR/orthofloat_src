@@ -9,4 +9,4 @@ import './styles/styles.scss';
 
 render(<App />, document.getElementById('app'));
 
-module.exports = require('./components/orthofloat');
+module.exports = require('./components/Orthofloat');
