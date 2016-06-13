@@ -37,7 +37,7 @@ export default class Orthofloat extends Component {
         this.scene = new THREE.Scene();
 
         this.initializeCamera();
-        this.initializeCubes();
+        this.initializeMeshes();
         this.initializeLights();
         this.initializeRenderer();
 
@@ -63,30 +63,52 @@ export default class Orthofloat extends Component {
         this.camera.lookAt(this.scene.position);
     }
 
+    initializeMeshes() {
+        this.meshSize = 2.5;
+        this.initializeCubes();
+        this.initializeTetrahedrons();
+    }
+
     initializeCubes() {
-        this.cubeSize = 4;
-        const cubeGeometry = new THREE.CubeGeometry(this.cubeSize, this.cubeSize, this.cubeSize);
+        const cubeGeometry = new THREE.CubeGeometry(this.meshSize, this.meshSize, this.meshSize);
         const colorAsHSL = new THREE.Color();
         this.colorSaturation = 1;
         this.colorLightness = 0.7;
         colorAsHSL.setHSL(this.props.hue, this.colorSaturation, this.colorLightness);
         this.cubeMaterial = new THREE.MeshLambertMaterial({color: colorAsHSL.getHex()});
         this.cubes = [];
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 53; i++) {
             const cube = new THREE.Mesh(cubeGeometry, this.cubeMaterial);
-            cube.position.y = randomWithRange(this.windowHeight / 16, this.windowHeight / -16);
-            cube.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
-            cube.rotation.set(randomWithRange(0, Math.PI), randomWithRange(0, Math.PI), randomWithRange(0, Math.PI));
-            cube.rotationSpeed = {
-                x: randomWithRange(-0.01, 0.01),
-                y: randomWithRange(-0.01, 0.01),
-                z: randomWithRange(-0.01, 0.01)
-            };
-            cube.yVelocity = randomWithRange(0.03, 0.1);
-            cube.zVelocity = randomWithRange(-0.01, 0.01);
+            this.setMeshInSpace(cube);
             this.cubes.push(cube);
             this.scene.add(cube);
         }
+    }
+
+    initializeTetrahedrons() {
+        const tetraGeometry = new THREE.TetrahedronGeometry(this.meshSize);
+        const color = new THREE.Color(0xff6ba9);
+        const tetraMaterial = new THREE.MeshBasicMaterial({color});
+        this.tetras = [];
+        for (let i = 0; i < 50; i++) {
+            const tetra = new THREE.Mesh(tetraGeometry, tetraMaterial);
+            this.setMeshInSpace(tetra);
+            this.tetras.push(tetra);
+            this.scene.add(tetra);
+        }
+    }
+
+    setMeshInSpace(mesh) {
+        mesh.position.y = randomWithRange(this.windowHeight / 16, this.windowHeight / -16);
+        mesh.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
+        mesh.rotation.set(randomWithRange(0, Math.PI), randomWithRange(0, Math.PI), randomWithRange(0, Math.PI));
+        mesh.rotationSpeed = {
+            x: randomWithRange(-0.01, 0.01),
+            y: randomWithRange(-0.01, 0.01),
+            z: randomWithRange(-0.01, 0.01)
+        };
+        mesh.yVelocity = randomWithRange(0.03, 0.1);
+        mesh.zVelocity = randomWithRange(-0.01, 0.01);
     }
 
     initializeLights() {
@@ -119,11 +141,11 @@ export default class Orthofloat extends Component {
     }
 
     renderAnimation() {
-        for (const cube of this.cubes) {
+        for (let cube of [...this.cubes, ...this.tetras]) {
             // if cube is above top of window
-            if (cube.position.y > (this.windowHeight / 16 + this.cubeSize * 3)) {
+            if (cube.position.y > (this.windowHeight / 16 + this.meshSize * 3)) {
                 // put it below the bottom of the window and give it a random z position
-                cube.position.y -= (this.windowHeight / 8 + this.cubeSize * 6);
+                cube.position.y -= (this.windowHeight / 8 + this.meshSize * 6);
                 cube.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
 
                 // give it new velocities
