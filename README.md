@@ -23,7 +23,7 @@ initializeWithStats | bool | false | allows the fps/ms stats screen to be toggle
 showStats | bool | false | toggles visibility of fps/ms, does nothing if initializeWithStats is not set to true
 
 ## example
-[russrinzler.com/orthofloat](http://www.russrinzler.com)
+[russrinzler.com/orthofloat](http://www.russrinzler.com/orthofloat)
 
 ## notes
 * the canvas inserted into the DOM will always be the height and width of the window

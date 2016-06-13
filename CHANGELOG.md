@@ -1,7 +1,10 @@
 orthofloat changelog
 =========
 
-#### 0.0.1
+#### 0.1.1
+* correct copy errors in changelog and readme
+
+#### 0.1.0
 * increased the number of shapes on screen, including many pink tetrahedrons that cannot change color
 * made the shapes smaller
 * remove issue of mismatch of case when exporting orthofloat
