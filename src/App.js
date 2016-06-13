@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Menu from './components/Menu';
 import Orthofloat from './components/Orthofloat';
+import { randomWithRange } from './businessLogic/mathHelpers';
 
 export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             menuIsOpen: false,
-            hue: 0.35714285714285715,
+            hue: Math.random(),
             showStats: false
         };
     }
@@ -17,7 +18,12 @@ export default class App extends Component {
     }
 
     toggleColor() {
-        this.setState({ hue: Math.random() });
+        let { hue } = this.state;
+        hue += randomWithRange(1/6, 5/6);
+        if (hue >= 1) {
+            hue -= 1;
+        }
+        this.setState({ hue });
     }
 
     toggleStats() {
