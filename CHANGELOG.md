@@ -1,6 +1,9 @@
 orthofloat changelog
 =========
 
+#### 0.1.2
+* remove UglifyJs as it was causing issues when orthofloat was imported into others' projects
+
 #### 0.1.1
 * correct copy errors in changelog and readme
 
