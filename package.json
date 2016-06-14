@@ -33,7 +33,7 @@
     "react": "15.0.1",
     "react-dom": "15.0.1",
     "stats.js": "0.16.0",
-    "three": "0.76.1",
+    "three": "0.77.1",
     "tween.js": "16.3.4"
   },
   "devDependencies": {

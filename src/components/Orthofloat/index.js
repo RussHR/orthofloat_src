@@ -84,7 +84,31 @@ export default class Orthofloat extends Component {
         this.cubes = [];
         for (let i = 0; i < 53; i++) {
             let geometry;
-            switch (Math.floor(Math.random() * 3)) {
+            switch (Math.floor(Math.random() * 11)) {
+                case 10:
+                    geometry = new THREE.TorusKnotGeometry(this.meshSize, this.meshSize / 3, 40, 12, 2, 3);
+                    break;
+                case 9:
+                    geometry = new THREE.TorusGeometry(this.meshSize, this.meshSize / 4, 16, 16, 4);
+                    break;
+                case 8:
+                    geometry = new THREE.SphereGeometry(this.meshSize, 16, 16);
+                    break;
+                case 7:
+                    geometry = new THREE.RingGeometry(this.meshSize / 2, this.meshSize, 16);
+                    break;
+                case 6:
+                    geometry = new THREE.PlaneGeometry(this.meshSize, this.meshSize, 0);
+                    break;
+                case 5: 
+                    geometry = new THREE.OctahedronGeometry(this.meshSize, 0);
+                    break;
+                case 4:
+                    geometry = new THREE.IcosahedronGeometry(this.meshSize, 0);
+                    break;
+                case 3:
+                    geometry = new THREE.DodecahedronGeometry(this.meshSize, 0);
+                    break;
                 case 2:
                     geometry = new THREE.CylinderGeometry(this.meshSize, this.meshSize, this.meshSize, 16);
                     break;
