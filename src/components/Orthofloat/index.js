@@ -76,7 +76,6 @@ export default class Orthofloat extends Component {
     }
 
     initializeCubes() {
-        const cubeGeometry = new THREE.CubeGeometry(this.meshSize, this.meshSize, this.meshSize);
         const colorAsHSL = new THREE.Color();
         this.colorSaturation = 1;
         this.colorLightness = 0.7;
@@ -84,7 +83,19 @@ export default class Orthofloat extends Component {
         this.cubeMaterial = new THREE.MeshLambertMaterial({color: colorAsHSL.getHex()});
         this.cubes = [];
         for (let i = 0; i < 53; i++) {
-            const cube = new THREE.Mesh(cubeGeometry, this.cubeMaterial);
+            let geometry;
+            switch (Math.floor(Math.random() * 3)) {
+                case 2:
+                    geometry = new THREE.CylinderGeometry(this.meshSize, this.meshSize, this.meshSize, 16);
+                    break;
+                case 1:
+                    geometry = new THREE.CircleGeometry(this.meshSize, 16);
+                    break;
+                case 0:
+                default:
+                    geometry = new THREE.BoxGeometry(this.meshSize, this.meshSize, this.meshSize);
+            }
+            const cube = new THREE.Mesh(geometry, this.cubeMaterial);
             this.setMeshInSpace(cube);
             this.cubes.push(cube);
             this.scene.add(cube);
