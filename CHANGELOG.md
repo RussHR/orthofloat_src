@@ -1,6 +1,9 @@
 orthofloat changelog
 =========
 
+#### 0.2.2
+* updated renderer.setClearColor params
+
 #### 0.2.1
 * include forgotten dist files
 
