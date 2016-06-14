@@ -158,7 +158,7 @@ export default class Orthofloat extends Component {
 
     initializeRenderer() {
         this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setClearColor(new THREE.Color(0xffffff, 1.0));
+        this.renderer.setClearColor(new THREE.Color(0xffffff), 1.0);
         this.renderer.setSize(this.windowWidth, this.windowHeight);
 
         this.el.appendChild(this.renderer.domElement);
