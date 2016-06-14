@@ -1,6 +1,9 @@
 orthofloat changelog
 =========
 
+#### 0.2.1
+* include forgotten dist files
+
 #### 0.2.0
 * the shapes that were not tetrahedrons are now randomly chosen from a set of different geometries
 
