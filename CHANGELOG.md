@@ -1,6 +1,9 @@
 orthofloat changelog
 =========
 
+#### 0.2.0
+* the shapes that were not tetrahedrons are now randomly chosen from a set of different geometries
+
 #### 0.1.2
 * remove UglifyJs as it was causing issues when orthofloat was imported into others' projects
 

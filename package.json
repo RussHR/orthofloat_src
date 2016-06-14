@@ -1,6 +1,6 @@
 {
   "name": "orthofloat",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "floating shape React component using three.js",
   "main": "./dist/bundle.js",
   "files": [
