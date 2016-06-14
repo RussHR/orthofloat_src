@@ -83,46 +83,41 @@ export default class Orthofloat extends Component {
         this.cubeMaterial = new THREE.MeshLambertMaterial({color: colorAsHSL.getHex()});
         this.cubes = [];
         for (let i = 0; i < 53; i++) {
-            let geometry;
-            switch (Math.floor(Math.random() * 11)) {
-                case 10:
-                    geometry = new THREE.TorusKnotGeometry(this.meshSize, this.meshSize / 3, 40, 12, 2, 3);
-                    break;
-                case 9:
-                    geometry = new THREE.TorusGeometry(this.meshSize, this.meshSize / 4, 16, 16, 4);
-                    break;
-                case 8:
-                    geometry = new THREE.SphereGeometry(this.meshSize, 16, 16);
-                    break;
-                case 7:
-                    geometry = new THREE.RingGeometry(this.meshSize / 2, this.meshSize, 16);
-                    break;
-                case 6:
-                    geometry = new THREE.PlaneGeometry(this.meshSize, this.meshSize, 0);
-                    break;
-                case 5: 
-                    geometry = new THREE.OctahedronGeometry(this.meshSize, 0);
-                    break;
-                case 4:
-                    geometry = new THREE.IcosahedronGeometry(this.meshSize, 0);
-                    break;
-                case 3:
-                    geometry = new THREE.DodecahedronGeometry(this.meshSize, 0);
-                    break;
-                case 2:
-                    geometry = new THREE.CylinderGeometry(this.meshSize, this.meshSize, this.meshSize, 16);
-                    break;
-                case 1:
-                    geometry = new THREE.CircleGeometry(this.meshSize, 16);
-                    break;
-                case 0:
-                default:
-                    geometry = new THREE.BoxGeometry(this.meshSize, this.meshSize, this.meshSize);
-            }
-            const cube = new THREE.Mesh(geometry, this.cubeMaterial);
+            const cube = new THREE.Mesh(this.generateRandomGeometry(), this.cubeMaterial);
             this.setMeshInSpace(cube);
             this.cubes.push(cube);
             this.scene.add(cube);
+        }
+    }
+
+    generateRandomGeometry() {
+        const meshSize = randomWithRange(0.25, 2) * this.meshSize;
+        switch (Math.floor(Math.random() * 11)) {
+            case 10:
+                return new THREE.TorusKnotGeometry(
+                    meshSize, meshSize / 3, 40, 12, randomWithRange(1, 20), randomWithRange(1, 20)
+                );
+            case 9:
+                return new THREE.TorusGeometry(meshSize, meshSize / 4, 16, 16, 4);
+            case 8:
+                return new THREE.SphereGeometry(meshSize, 16, 16);
+            case 7:
+                return new THREE.RingGeometry(meshSize / 2, meshSize, 16);
+            case 6:
+                return new THREE.PlaneGeometry(meshSize, meshSize, 0);
+            case 5:
+                return new THREE.OctahedronGeometry(meshSize, 0);
+            case 4:
+                return new THREE.IcosahedronGeometry(meshSize, 0);
+            case 3:
+                return new THREE.DodecahedronGeometry(meshSize, 0);
+            case 2:
+                return new THREE.CylinderGeometry(meshSize, meshSize, meshSize, 16);
+            case 1:
+                return new THREE.CircleGeometry(meshSize, 16);
+            case 0:
+            default:
+                return new THREE.BoxGeometry(meshSize, meshSize, meshSize);
         }
     }
 
