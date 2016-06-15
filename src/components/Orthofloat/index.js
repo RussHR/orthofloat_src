@@ -86,7 +86,7 @@ export default class Orthofloat extends Component {
 
     initializeCubes() {
         const color = new THREE.Color(this.props.color.r, this.props.color.g, this.props.color.b);
-        this.cubeMaterial = new THREE.MeshLambertMaterial({ color: color.getHex() });
+        this.cubeMaterial = new THREE.MeshBasicMaterial({ color: color });
         this.cubes = [];
         for (let i = 0; i < 53; i++) {
             const cube = new THREE.Mesh(this.generateRandomGeometry(), this.cubeMaterial);
