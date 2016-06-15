@@ -24,12 +24,12 @@ export default class Orthofloat extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!lodashIsEqual(nextProps.color, this.props.color)) {
+        if (!lodashIsEqual(nextProps.bottomColor, this.props.bottomColor)) {
             const { color } = this.cubeMaterial;
             const newColor = {
-                r: nextProps.color.r,
-                g: nextProps.color.g,
-                b: nextProps.color.b
+                r: nextProps.bottomColor.r,
+                g: nextProps.bottomColor.g,
+                b: nextProps.bottomColor.b
             };
             const tween = new TWEEN.Tween(color)
                     .to(newColor, 1000)
@@ -85,8 +85,8 @@ export default class Orthofloat extends Component {
     }
 
     initializeCubes() {
-        const color = new THREE.Color(this.props.color.r, this.props.color.g, this.props.color.b);
-        this.cubeMaterial = new THREE.MeshBasicMaterial({ color: color });
+        const color = new THREE.Color(this.props.bottomColor.r, this.props.bottomColor.g, this.props.bottomColor.b);
+        this.cubeMaterial = new THREE.MeshBasicMaterial({ color });
         this.cubes = [];
         for (let i = 0; i < 53; i++) {
             const cube = new THREE.Mesh(this.generateRandomGeometry(), this.cubeMaterial);
@@ -242,14 +242,14 @@ export default class Orthofloat extends Component {
 
     render() {
         const className = classNames('orthofloat-wrapper', { 'show-stats': this.props.showStats });
-        const bottomColor = (new THREE.Color(this.props.color.r, this.props.color.g, this.props.color.b)).getStyle();
-        const style = { backgroundImage: `${this.vendorPrefix}linear-gradient(${bottomColor}, green)` };
+        const bottomColor = (new THREE.Color(this.props.bottomColor.r, this.props.bottomColor.g, this.props.bottomColor.b)).getStyle();
+        const style = { backgroundImage: `${this.vendorPrefix}linear-gradient(green, ${bottomColor})` };
         return <div className={className} style={style} ref={c => this.el = c} />;
     }
 }
 
 Orthofloat.propTypes = {
-    color: PropTypes.shape({
+    bottomColor: PropTypes.shape({
         r: PropTypes.number.isRequired,
         g: PropTypes.number.isRequired,
         b: PropTypes.number.isRequired
@@ -259,7 +259,7 @@ Orthofloat.propTypes = {
 };
 
 Orthofloat.defaultProps = {
-    color: {
+    bottomColor: {
         r: Math.random(),
         g: Math.random(),
         b: Math.random()
