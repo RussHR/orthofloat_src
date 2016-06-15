@@ -21,7 +21,11 @@ export default class Orthofloat extends Component {
     componentWillReceiveProps(nextProps) {
         if (!lodashIsEqual(nextProps.color, this.props.color)) {
             const { color } = this.cubeMaterial;
-            const newColor = new THREE.Color(nextProps.color.r, nextProps.color.g, nextProps.color.b);
+            const newColor = {
+                r: nextProps.color.r,
+                g: nextProps.color.g,
+                b: nextProps.color.b
+            };
             const tween = new TWEEN.Tween(color)
                     .to(newColor, 1000)
                     .easing(TWEEN.Easing.Quadratic.Out)
