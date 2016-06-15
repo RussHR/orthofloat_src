@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import bowser from 'bowser';
 import classNames from 'classnames';
 import THREE from 'three';
 import TWEEN from 'tween.js';
@@ -11,6 +12,10 @@ import { randomWithRange } from '../../businessLogic/mathHelpers';
 import './orthofloat.scss';
 
 export default class Orthofloat extends Component {
+    componentWillMount() {
+        this.setVendorPrefix();
+    }
+
     componentDidMount() {
         this.initializeScene();
 
@@ -170,6 +175,18 @@ export default class Orthofloat extends Component {
         this.el.appendChild(this.stats.dom);
     }
 
+    setVendorPrefix() {
+        if (bowser.webkit) {
+            this.vendorPrefix = '-webkit-';
+        } else if (bowser.firefox) {
+            this.vendorPrefix = '-moz-';
+        } else if (bowser.opera) {
+            this.vendorPrefix = '-o-';
+        } else {
+            this.vendorPrefix = '';
+        }
+    }
+
     onWindowResize() {
         this.setWindowHeightAndWidth();
         this.renderer.setSize(this.windowWidth, this.windowHeight);
@@ -225,7 +242,9 @@ export default class Orthofloat extends Component {
 
     render() {
         const className = classNames('orthofloat-wrapper', { 'show-stats': this.props.showStats });
-        return <div className={className} ref={c => this.el = c} />;
+        const bottomColor = (new THREE.Color(this.props.color.r, this.props.color.g, this.props.color.b)).getStyle();
+        const style = { backgroundImage: `${this.vendorPrefix}linear-gradient(${bottomColor}, green)` };
+        return <div className={className} style={style} ref={c => this.el = c} />;
     }
 }
 
