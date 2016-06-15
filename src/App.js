@@ -8,7 +8,11 @@ export default class App extends Component {
         super(props);
         this.state = {
             menuIsOpen: false,
-            hue: Math.random(),
+            color: {
+                r: Math.random(),
+                g: Math.random(),
+                b: Math.random()
+            },
             showStats: false
         };
     }
@@ -18,12 +22,13 @@ export default class App extends Component {
     }
 
     toggleColor() {
-        let { hue } = this.state;
-        hue += randomWithRange(1/6, 5/6);
-        if (hue >= 1) {
-            hue -= 1;
-        }
-        this.setState({ hue });
+        this.setState({
+            color: {
+                r: Math.random(),
+                g: Math.random(),
+                b: Math.random()
+            }
+        });
     }
 
     toggleStats() {
@@ -31,7 +36,7 @@ export default class App extends Component {
     }
 
     render() {
-        const { menuIsOpen, hue, showStats } = this.state;
+        const { menuIsOpen, color, showStats } = this.state;
 
         return (
             <div>
@@ -39,7 +44,7 @@ export default class App extends Component {
                       onClickToggleMenu={() => this.toggleMenu()}
                       onClickToggleColor={() => this.toggleColor()}
                       onClickToggleStats={() => this.toggleStats()} />
-                <Orthofloat hue={hue} initializeWithStats={true} showStats={showStats}/>
+                <Orthofloat color={color} initializeWithStats={true} showStats={showStats}/>
             </div>
         );
     }

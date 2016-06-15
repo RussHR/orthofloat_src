@@ -4,6 +4,7 @@ import THREE from 'three';
 import TWEEN from 'tween.js';
 import Stats from 'stats.js';
 import lodashThrottle from 'lodash/throttle';
+import lodashIsEqual from 'lodash/isEqual';
 
 import { randomWithRange } from '../../businessLogic/mathHelpers';
 
@@ -18,10 +19,9 @@ export default class Orthofloat extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.hue !== this.props.hue) {
+        if (!lodashIsEqual(nextProps.color, this.props.color)) {
             const { color } = this.cubeMaterial;
-            const newColor = new THREE.Color();
-            newColor.setHSL(nextProps.hue, this.colorSaturation, this.colorLightness);
+            const newColor = new THREE.Color(nextProps.color.r, nextProps.color.g, nextProps.color.b);
             const tween = new TWEEN.Tween(color)
                     .to(newColor, 1000)
                     .easing(TWEEN.Easing.Quadratic.Out)
@@ -76,11 +76,8 @@ export default class Orthofloat extends Component {
     }
 
     initializeCubes() {
-        const colorAsHSL = new THREE.Color();
-        this.colorSaturation = 1;
-        this.colorLightness = 0.7;
-        colorAsHSL.setHSL(this.props.hue, this.colorSaturation, this.colorLightness);
-        this.cubeMaterial = new THREE.MeshLambertMaterial({color: colorAsHSL.getHex()});
+        const color = new THREE.Color(this.props.color.r, this.props.color.g, this.props.color.b);
+        this.cubeMaterial = new THREE.MeshLambertMaterial({ color: color.getHex() });
         this.cubes = [];
         for (let i = 0; i < 53; i++) {
             const cube = new THREE.Mesh(this.generateRandomGeometry(), this.cubeMaterial);
@@ -157,8 +154,7 @@ export default class Orthofloat extends Component {
     }
 
     initializeRenderer() {
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setClearColor(new THREE.Color(0xffffff), 1.0);
+        this.renderer = new THREE.WebGLRenderer({ alpha: true });
         this.renderer.setSize(this.windowWidth, this.windowHeight);
 
         this.el.appendChild(this.renderer.domElement);
@@ -230,13 +226,21 @@ export default class Orthofloat extends Component {
 }
 
 Orthofloat.propTypes = {
-    hue: PropTypes.number,
+    color: PropTypes.shape({
+        r: PropTypes.number.isRequired,
+        g: PropTypes.number.isRequired,
+        b: PropTypes.number.isRequired
+    }),
     initializeWithStats: PropTypes.bool,
     showStats: PropTypes.bool
 };
 
 Orthofloat.defaultProps = {
-    hue: 0.35714285714285715,
+    color: {
+        r: Math.random(),
+        g: Math.random(),
+        b: Math.random()
+    },
     initializeWithStats: false,
     showStats: false
 };
