@@ -241,9 +241,11 @@ export default class Orthofloat extends Component {
     }
 
     render() {
-        const className = classNames('orthofloat-wrapper', { 'show-stats': this.props.showStats });
-        const bottomColor = (new THREE.Color(this.props.bottomColor.r, this.props.bottomColor.g, this.props.bottomColor.b)).getStyle();
-        const style = { backgroundImage: `${this.vendorPrefix}linear-gradient(green, ${bottomColor})` };
+        const { showStats, topColor, bottomColor } = this.props;
+        const className = classNames('orthofloat-wrapper', { 'show-stats': showStats });
+        const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
+        const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
+        const style = { backgroundImage: `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})` };
         return <div className={className} style={style} ref={c => this.el = c} />;
     }
 }
@@ -254,12 +256,18 @@ Orthofloat.propTypes = {
         g: PropTypes.number.isRequired,
         b: PropTypes.number.isRequired
     }),
+    topColor: PropTypes.shape({
+        r: PropTypes.number.isRequired,
+        g: PropTypes.number.isRequired,
+        b: PropTypes.number.isRequired
+    }),
     initializeWithStats: PropTypes.bool,
     showStats: PropTypes.bool
 };
 
 Orthofloat.defaultProps = {
     bottomColor: randomRGB(),
+    topColor: randomRGB(),
     initializeWithStats: false,
     showStats: false
 };

@@ -30,7 +30,7 @@ export default class App extends Component {
     }
 
     render() {
-        const { menuIsOpen, bottomColor, showStats } = this.state;
+        const { menuIsOpen, bottomColor, showStats, topColor } = this.state;
 
         return (
             <div>
@@ -38,7 +38,10 @@ export default class App extends Component {
                       onClickToggleMenu={() => this.toggleMenu()}
                       onClickToggleColor={() => this.toggleColor()}
                       onClickToggleStats={() => this.toggleStats()} />
-                <Orthofloat bottomColor={bottomColor} initializeWithStats={true} showStats={showStats}/>
+                <Orthofloat bottomColor={bottomColor}
+                            topColor={topColor}
+                            initializeWithStats={true}
+                            showStats={showStats} />
             </div>
         );
     }
