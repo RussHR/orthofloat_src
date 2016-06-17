@@ -23,6 +23,7 @@ export default class Orthofloat extends Component {
 
     componentWillMount() {
         this.setVendorPrefix();
+        this.setWindowHeightAndWidth();
         this.stripeWidth = 25;
     }
 
@@ -53,8 +54,6 @@ export default class Orthofloat extends Component {
     }
 
     initializeScene() {
-        this.setWindowHeightAndWidth();
-
         this.scene = new THREE.Scene();
 
         this.initializeCamera();
@@ -260,15 +259,18 @@ export default class Orthofloat extends Component {
         };
         const stripeStyle = {
             width: `${this.stripeWidth}px`,
-            marginLeft: `${this.stripeWidth}px`
+            marginRight: `${this.stripeWidth}px`
         };
+        const numOfStripes = Math.ceil(this.windowWidth / (this.stripeWidth * 2));
+        let stripes = [];
+        for (let i = 0; i < numOfStripes; i++) {
+            stripes.push(<div className="orthofloat-stripe" style={stripeStyle} key={i} />);
+        }
 
         return (
             <div className={className} style={wrapperStyle} ref={c => this.el = c}>
                 <div className="orthofloat-stripes">
-                    <div className="orthofloat-stripe" style={stripeStyle} />
-                    <div className="orthofloat-stripe" style={stripeStyle} />
-                    <div className="orthofloat-stripe" style={stripeStyle} />
+                    {stripes}
                 </div>
             </div>
         );
