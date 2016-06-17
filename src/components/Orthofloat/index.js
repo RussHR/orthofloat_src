@@ -12,6 +12,15 @@ import { randomWithRange, randomRGB } from '../../businessLogic/mathHelpers';
 import './orthofloat.scss';
 
 export default class Orthofloat extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            windowHeight: 0,
+            windowWidth: 0
+        };
+    }
+
     componentWillMount() {
         this.setVendorPrefix();
     }
@@ -246,7 +255,16 @@ export default class Orthofloat extends Component {
         const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
         const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
         const style = { backgroundImage: `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})` };
-        return <div className={className} style={style} ref={c => this.el = c} />;
+
+        return (
+            <div className={className} style={style} ref={c => this.el = c}>
+                <div className="orthofloat-stripes">
+                    <div className="orthofloat-stripe" />
+                    <div className="orthofloat-stripe" />
+                    <div className="orthofloat-stripe" />
+                </div>
+            </div>
+        );
     }
 }
 
