@@ -23,6 +23,7 @@ export default class Orthofloat extends Component {
 
     componentWillMount() {
         this.setVendorPrefix();
+        this.stripeWidth = 25;
     }
 
     componentDidMount() {
@@ -254,14 +255,20 @@ export default class Orthofloat extends Component {
         const className = classNames('orthofloat-wrapper', { 'show-stats': showStats });
         const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
         const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
-        const style = { backgroundImage: `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})` };
+        const wrapperStyle = {
+            backgroundImage: `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`
+        };
+        const stripeStyle = {
+            width: `${this.stripeWidth}px`,
+            marginLeft: `${this.stripeWidth}px`
+        };
 
         return (
-            <div className={className} style={style} ref={c => this.el = c}>
+            <div className={className} style={wrapperStyle} ref={c => this.el = c}>
                 <div className="orthofloat-stripes">
-                    <div className="orthofloat-stripe" />
-                    <div className="orthofloat-stripe" />
-                    <div className="orthofloat-stripe" />
+                    <div className="orthofloat-stripe" style={stripeStyle} />
+                    <div className="orthofloat-stripe" style={stripeStyle} />
+                    <div className="orthofloat-stripe" style={stripeStyle} />
                 </div>
             </div>
         );
