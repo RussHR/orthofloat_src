@@ -7,7 +7,7 @@ import Stats from 'stats.js';
 import lodashThrottle from 'lodash/throttle';
 import lodashIsEqual from 'lodash/isEqual';
 
-import { randomWithRange } from '../../businessLogic/mathHelpers';
+import { randomWithRange, randomRGB } from '../../businessLogic/mathHelpers';
 
 import './orthofloat.scss';
 
@@ -259,11 +259,7 @@ Orthofloat.propTypes = {
 };
 
 Orthofloat.defaultProps = {
-    bottomColor: {
-        r: Math.random(),
-        g: Math.random(),
-        b: Math.random()
-    },
+    bottomColor: randomRGB(),
     initializeWithStats: false,
     showStats: false
 };

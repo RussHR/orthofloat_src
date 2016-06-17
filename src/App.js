@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import Menu from './components/Menu';
 import Orthofloat from './components/Orthofloat';
-import { randomWithRange } from './businessLogic/mathHelpers';
+import { randomWithRange, randomRGB } from './businessLogic/mathHelpers';
 
 export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             menuIsOpen: false,
-            bottomColor: {
-                r: Math.random(),
-                g: Math.random(),
-                b: Math.random()
-            },
+            bottomColor: randomRGB(),
+            topColor: randomRGB(),
             showStats: false
         };
     }
@@ -23,11 +20,8 @@ export default class App extends Component {
 
     toggleColor() {
         this.setState({
-            bottomColor: {
-                r: Math.random(),
-                g: Math.random(),
-                b: Math.random()
-            }
+            bottomColor: randomRGB(),
+            topColor: randomRGB()
         });
     }
 
