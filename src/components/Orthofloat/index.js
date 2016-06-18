@@ -35,7 +35,7 @@ export default class Orthofloat extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (!lodashIsEqual(nextProps.bottomColor, this.props.bottomColor)) {
-            const { color } = this.cubeMaterial;
+            const { color } = this.randomShapeMaterial;
             const newColor = {
                 r: nextProps.bottomColor.r,
                 g: nextProps.bottomColor.g,
@@ -84,19 +84,19 @@ export default class Orthofloat extends Component {
 
     initializeMeshes() {
         this.meshSize = 2.5;
-        this.initializeCubes();
+        this.initializeRandomShapes();
         this.initializeTetrahedrons();
     }
 
-    initializeCubes() {
+    initializeRandomShapes() {
         const color = new THREE.Color(this.props.bottomColor.r, this.props.bottomColor.g, this.props.bottomColor.b);
-        this.cubeMaterial = new THREE.MeshBasicMaterial({ color });
-        this.cubes = [];
+        this.randomShapeMaterial = new THREE.MeshBasicMaterial({ color });
+        this.randomShapes = [];
         for (let i = 0; i < 53; i++) {
-            const cube = new THREE.Mesh(this.generateRandomGeometry(), this.cubeMaterial);
-            this.setMeshInSpace(cube);
-            this.cubes.push(cube);
-            this.scene.add(cube);
+            const shape = new THREE.Mesh(this.generateRandomGeometry(), this.randomShapeMaterial);
+            this.setMeshInSpace(shape);
+            this.randomShapes.push(shape);
+            this.scene.add(shape);
         }
     }
 
@@ -215,8 +215,8 @@ export default class Orthofloat extends Component {
 
         const { windowHeight, windowWidth } = this.state;
 
-        for (let mesh of [...this.cubes, ...this.tetras]) {
-            // if cube is above top of window
+        for (let mesh of [...this.randomShapes, ...this.tetras]) {
+            // if shape is above top of window
             if (mesh.position.y > (windowHeight / 16 + this.meshSize * 3)) {
                 // put it below the bottom of the window and give it a random z position
                 mesh.position.y -= (windowHeight / 8 + this.meshSize * 6);
