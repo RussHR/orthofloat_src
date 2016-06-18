@@ -35,16 +35,28 @@ export default class Orthofloat extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (!lodashIsEqual(nextProps.bottomColor, this.props.bottomColor)) {
-            const { color } = this.randomShapeMaterial;
-            const newColor = {
-                r: nextProps.bottomColor.r,
-                g: nextProps.bottomColor.g,
-                b: nextProps.bottomColor.b
+            const { randomShapeMaterialBottom } = this;
+            const oldColors = {
+                bottomR: this.props.bottomColor.r,
+                bottomG: this.props.bottomColor.g,
+                bottomB: this.props.bottomColor.b
             };
-            const tween = new TWEEN.Tween(color)
-                    .to(newColor, 1000)
-                    .easing(TWEEN.Easing.Quadratic.Out)
-                    .start();
+            const newColors = {
+                bottomR: nextProps.bottomColor.r,
+                bottomG: nextProps.bottomColor.g,
+                bottomB: nextProps.bottomColor.b
+            };
+            const tween = new TWEEN.Tween(oldColors)
+                .to(newColors, 1000)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .onUpdate(function() {
+                    randomShapeMaterialBottom.color = {
+                        r: this.bottomR,
+                        g: this.bottomG,
+                        b: this.bottomB
+                    };
+                })
+                .start();
         }
     }
 
@@ -90,10 +102,10 @@ export default class Orthofloat extends Component {
 
     initializeRandomShapes() {
         const color = new THREE.Color(this.props.bottomColor.r, this.props.bottomColor.g, this.props.bottomColor.b);
-        this.randomShapeMaterial = new THREE.MeshBasicMaterial({ color });
+        this.randomShapeMaterialBottom = new THREE.MeshBasicMaterial({ color });
         this.randomShapes = [];
         for (let i = 0; i < 53; i++) {
-            const shape = new THREE.Mesh(this.generateRandomGeometry(), this.randomShapeMaterial);
+            const shape = new THREE.Mesh(this.generateRandomGeometry(), this.randomShapeMaterialBottom);
             this.setMeshInSpace(shape);
             this.randomShapes.push(shape);
             this.scene.add(shape);
