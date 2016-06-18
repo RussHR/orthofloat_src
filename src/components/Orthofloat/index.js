@@ -1,15 +1,31 @@
 import React, { Component, PropTypes } from 'react';
+import bowser from 'bowser';
 import classNames from 'classnames';
 import THREE from 'three';
 import TWEEN from 'tween.js';
 import Stats from 'stats.js';
 import lodashThrottle from 'lodash/throttle';
+import lodashIsEqual from 'lodash/isEqual';
 
-import { randomWithRange } from '../../businessLogic/mathHelpers';
+import { randomWithRange, randomRGB } from '../../businessLogic/mathHelpers';
 
 import './orthofloat.scss';
 
 export default class Orthofloat extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            windowHeight: window.innerHeight,
+            windowWidth: window.innerWidth
+        };
+    }
+
+    componentWillMount() {
+        this.setVendorPrefix();
+        this.stripeWidth = 25;
+    }
+
     componentDidMount() {
         this.initializeScene();
 
@@ -18,10 +34,13 @@ export default class Orthofloat extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.hue !== this.props.hue) {
+        if (!lodashIsEqual(nextProps.bottomColor, this.props.bottomColor)) {
             const { color } = this.cubeMaterial;
-            const newColor = new THREE.Color();
-            newColor.setHSL(nextProps.hue, this.colorSaturation, this.colorLightness);
+            const newColor = {
+                r: nextProps.bottomColor.r,
+                g: nextProps.bottomColor.g,
+                b: nextProps.bottomColor.b
+            };
             const tween = new TWEEN.Tween(color)
                     .to(newColor, 1000)
                     .easing(TWEEN.Easing.Quadratic.Out)
@@ -34,8 +53,6 @@ export default class Orthofloat extends Component {
     }
 
     initializeScene() {
-        this.setWindowHeightAndWidth();
-
         this.scene = new THREE.Scene();
 
         this.initializeCamera();
@@ -50,18 +67,14 @@ export default class Orthofloat extends Component {
         this.renderAnimation();
     }
 
-    setWindowHeightAndWidth() {
-        this.windowHeight = window.innerHeight;
-        this.windowWidth = window.innerWidth;
-    }
-
     initializeCamera() {
+        const { windowHeight, windowWidth } = this.state;
         this.camFactor = 16;
         this.camera = new THREE.OrthographicCamera(
-            this.windowWidth / - this.camFactor,
-            this.windowWidth / this.camFactor,
-            this.windowHeight / this.camFactor,
-            this.windowHeight / - this.camFactor,
+            windowWidth / - this.camFactor,
+            windowWidth / this.camFactor,
+            windowHeight / this.camFactor,
+            windowHeight / - this.camFactor,
             -200,
             500
         );
@@ -76,11 +89,8 @@ export default class Orthofloat extends Component {
     }
 
     initializeCubes() {
-        const colorAsHSL = new THREE.Color();
-        this.colorSaturation = 1;
-        this.colorLightness = 0.7;
-        colorAsHSL.setHSL(this.props.hue, this.colorSaturation, this.colorLightness);
-        this.cubeMaterial = new THREE.MeshLambertMaterial({color: colorAsHSL.getHex()});
+        const color = new THREE.Color(this.props.bottomColor.r, this.props.bottomColor.g, this.props.bottomColor.b);
+        this.cubeMaterial = new THREE.MeshBasicMaterial({ color });
         this.cubes = [];
         for (let i = 0; i < 53; i++) {
             const cube = new THREE.Mesh(this.generateRandomGeometry(), this.cubeMaterial);
@@ -135,8 +145,9 @@ export default class Orthofloat extends Component {
     }
 
     setMeshInSpace(mesh) {
-        mesh.position.y = randomWithRange(this.windowHeight / 16, this.windowHeight / -16);
-        mesh.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
+        const { windowHeight, windowWidth } = this.state;
+        mesh.position.y = randomWithRange(windowHeight / 16, windowHeight / -16);
+        mesh.position.z = randomWithRange(windowWidth / 16, windowWidth / -16);
         mesh.rotation.set(randomWithRange(0, Math.PI), randomWithRange(0, Math.PI), randomWithRange(0, Math.PI));
         mesh.rotationSpeed = {
             x: randomWithRange(-0.01, 0.01),
@@ -157,9 +168,9 @@ export default class Orthofloat extends Component {
     }
 
     initializeRenderer() {
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setClearColor(new THREE.Color(0xffffff), 1.0);
-        this.renderer.setSize(this.windowWidth, this.windowHeight);
+        const { windowHeight, windowWidth } = this.state;
+        this.renderer = new THREE.WebGLRenderer({ alpha: true });
+        this.renderer.setSize(windowWidth, windowHeight);
 
         this.el.appendChild(this.renderer.domElement);
         this.renderer.render(this.scene, this.camera);
@@ -170,14 +181,30 @@ export default class Orthofloat extends Component {
         this.el.appendChild(this.stats.dom);
     }
 
-    onWindowResize() {
-        this.setWindowHeightAndWidth();
-        this.renderer.setSize(this.windowWidth, this.windowHeight);
+    setVendorPrefix() {
+        if (bowser.webkit) {
+            this.vendorPrefix = '-webkit-';
+        } else if (bowser.firefox) {
+            this.vendorPrefix = '-moz-';
+        } else if (bowser.opera) {
+            this.vendorPrefix = '-o-';
+        } else {
+            this.vendorPrefix = '';
+        }
+    }
 
-        this.camera.left = this.windowWidth / -this.camFactor;
-        this.camera.right = this.windowWidth / this.camFactor;
-        this.camera.top = this.windowHeight / this.camFactor;
-        this.camera.bottom = this.windowHeight / -this.camFactor;
+    onWindowResize() {
+        const windowHeight = window.innerHeight,
+              windowWidth = window.innerWidth;
+
+        this.setState({ windowHeight, windowWidth });
+
+        this.renderer.setSize(windowWidth, windowHeight);
+
+        this.camera.left = windowWidth / -this.camFactor;
+        this.camera.right = windowWidth / this.camFactor;
+        this.camera.top = windowHeight / this.camFactor;
+        this.camera.bottom = windowHeight / -this.camFactor;
         this.camera.updateProjectionMatrix();
     }
 
@@ -186,12 +213,14 @@ export default class Orthofloat extends Component {
             this.stats.begin();
         }
 
+        const { windowHeight, windowWidth } = this.state;
+
         for (let mesh of [...this.cubes, ...this.tetras]) {
             // if cube is above top of window
-            if (mesh.position.y > (this.windowHeight / 16 + this.meshSize * 3)) {
+            if (mesh.position.y > (windowHeight / 16 + this.meshSize * 3)) {
                 // put it below the bottom of the window and give it a random z position
-                mesh.position.y -= (this.windowHeight / 8 + this.meshSize * 6);
-                mesh.position.z = randomWithRange(this.windowWidth / 16, this.windowWidth / -16);
+                mesh.position.y -= (windowHeight / 8 + this.meshSize * 6);
+                mesh.position.z = randomWithRange(windowWidth / 16, windowWidth / -16);
 
                 // give it new velocities
                 mesh.yVelocity = randomWithRange(0.03, 0.1);
@@ -224,19 +253,53 @@ export default class Orthofloat extends Component {
     }
 
     render() {
-        const className = classNames('orthofloat-wrapper', { 'show-stats': this.props.showStats });
-        return <div className={className} ref={c => this.el = c} />;
+        const { showStats, topColor, bottomColor } = this.props;
+        const { windowHeight, windowWidth } = this.state;
+        const className = classNames('orthofloat-wrapper', { 'show-stats': showStats });
+        const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
+        const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
+        const wrapperStyle = {
+            backgroundImage: `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`
+        };
+        const stripeStyle = {
+            width: `${this.stripeWidth}px`,
+            marginRight: `${this.stripeWidth}px`,
+            backgroundImage: `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`
+        };
+        const numOfStripes = Math.ceil(windowWidth / (this.stripeWidth * 2));
+        let stripes = [];
+        for (let i = 0; i < numOfStripes; i++) {
+            stripes.push(<div className="orthofloat-stripe" style={stripeStyle} key={i} />);
+        }
+
+        return (
+            <div className={className} style={wrapperStyle} ref={c => this.el = c}>
+                <div className="orthofloat-stripes">
+                    {stripes}
+                </div>
+            </div>
+        );
     }
 }
 
 Orthofloat.propTypes = {
-    hue: PropTypes.number,
+    bottomColor: PropTypes.shape({
+        r: PropTypes.number.isRequired,
+        g: PropTypes.number.isRequired,
+        b: PropTypes.number.isRequired
+    }),
+    topColor: PropTypes.shape({
+        r: PropTypes.number.isRequired,
+        g: PropTypes.number.isRequired,
+        b: PropTypes.number.isRequired
+    }),
     initializeWithStats: PropTypes.bool,
     showStats: PropTypes.bool
 };
 
 Orthofloat.defaultProps = {
-    hue: 0.35714285714285715,
+    bottomColor: randomRGB(),
+    topColor: randomRGB(),
     initializeWithStats: false,
     showStats: false
 };

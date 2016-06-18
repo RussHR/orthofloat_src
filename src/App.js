@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import Menu from './components/Menu';
 import Orthofloat from './components/Orthofloat';
-import { randomWithRange } from './businessLogic/mathHelpers';
+import { randomWithRange, randomRGB } from './businessLogic/mathHelpers';
 
 export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             menuIsOpen: false,
-            hue: Math.random(),
+            bottomColor: randomRGB(),
+            topColor: randomRGB(),
             showStats: false
         };
     }
@@ -18,12 +19,10 @@ export default class App extends Component {
     }
 
     toggleColor() {
-        let { hue } = this.state;
-        hue += randomWithRange(1/6, 5/6);
-        if (hue >= 1) {
-            hue -= 1;
-        }
-        this.setState({ hue });
+        this.setState({
+            bottomColor: randomRGB(),
+            topColor: randomRGB()
+        });
     }
 
     toggleStats() {
@@ -31,7 +30,7 @@ export default class App extends Component {
     }
 
     render() {
-        const { menuIsOpen, hue, showStats } = this.state;
+        const { menuIsOpen, bottomColor, showStats, topColor } = this.state;
 
         return (
             <div>
@@ -39,7 +38,10 @@ export default class App extends Component {
                       onClickToggleMenu={() => this.toggleMenu()}
                       onClickToggleColor={() => this.toggleColor()}
                       onClickToggleStats={() => this.toggleStats()} />
-                <Orthofloat hue={hue} initializeWithStats={true} showStats={showStats}/>
+                <Orthofloat bottomColor={bottomColor}
+                            topColor={topColor}
+                            initializeWithStats={true}
+                            showStats={showStats} />
             </div>
         );
     }
