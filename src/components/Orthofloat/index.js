@@ -128,11 +128,19 @@ export default class Orthofloat extends Component {
                     shape = new THREE.Mesh(this.generateRandomGeometry(), this.randomShapeMaterialBottom);
                     break;
                 case 2:
-                    shape = new THREE.Mesh(this.generateRandomGeometry(), this.randomShapeMaterialTop);
+                    shape = new THREE.Mesh(
+                        this.generateRandomGeometry(),
+                        new THREE.MeshBasicMaterial({ color: threeTopColor })
+                    );
+                    shape.colorTopToBottom = true;
                     break;
                 case 3:
                 default:
-                    shape = new THREE.Mesh(this.generateRandomGeometry(), this.randomShapeMaterialBottom);
+                    shape = new THREE.Mesh(
+                        this.generateRandomGeometry(),
+                        new THREE.MeshBasicMaterial({ color: threeBottomColor })
+                    );
+                    shape.colorBottomToTop = true;
             }
             this.setMeshInSpace(shape);
             this.randomShapes.push(shape);
@@ -255,32 +263,13 @@ export default class Orthofloat extends Component {
 
         const { windowHeight, windowWidth } = this.state;
 
-        for (let mesh of [...this.randomShapes, ...this.tetras]) {
-            // if shape is above top of window
-            if (mesh.position.y > (windowHeight / 16 + this.meshSize * 3)) {
-                // put it below the bottom of the window and give it a random z position
-                mesh.position.y -= (windowHeight / 8 + this.meshSize * 6);
-                mesh.position.z = randomWithRange(windowWidth / 16, windowWidth / -16);
+        for (let mesh of this.randomShapes) {
+            this.moveMesh(mesh);
+        }
 
-                // give it new velocities
-                mesh.yVelocity = randomWithRange(0.03, 0.1);
-                mesh.zVelocity = randomWithRange(-0.01, 0.01);
-
-                // give the mesh new rotation speeds
-                for (const axis of ['x', 'y', 'z']) {
-                    mesh.rotationSpeed[axis] = randomWithRange(-0.01, 0.01);
-                }
-            }
-
-            // translate the mesh
-            mesh.position.y += mesh.yVelocity;
-            mesh.position.z += mesh.zVelocity;
-
-            // rotate the mesh around its axes
-            for (const axis of ['x', 'y', 'z']) {
-                mesh.rotation[axis] += mesh.rotationSpeed[axis];
-            }
-     }
+        for (let mesh of this.tetras) {
+            this.moveMesh(mesh);
+        }
 
         TWEEN.update();
         this.renderer.render(this.scene, this.camera);
@@ -290,6 +279,35 @@ export default class Orthofloat extends Component {
         }
 
         requestAnimationFrame(() => this.renderAnimation());
+    }
+
+    moveMesh(mesh) {
+        const { windowHeight, windowWidth } = this.state;
+
+        // if shape is above top of window
+        if (mesh.position.y > (windowHeight / 16 + this.meshSize * 3)) {
+            // put it below the bottom of the window and give it a random z position
+            mesh.position.y -= (windowHeight / 8 + this.meshSize * 6);
+            mesh.position.z = randomWithRange(windowWidth / 16, windowWidth / -16);
+
+            // give it new velocities
+            mesh.yVelocity = randomWithRange(0.03, 0.1);
+            mesh.zVelocity = randomWithRange(-0.01, 0.01);
+
+            // give the mesh new rotation speeds
+            for (let axis of ['x', 'y', 'z']) {
+                mesh.rotationSpeed[axis] = randomWithRange(-0.01, 0.01);
+            }
+        }
+
+        // translate the mesh
+        mesh.position.y += mesh.yVelocity;
+        mesh.position.z += mesh.zVelocity;
+
+        // rotate the mesh around its axes
+        for (let axis of ['x', 'y', 'z']) {
+            mesh.rotation[axis] += mesh.rotationSpeed[axis];
+        }
     }
 
     render() {
