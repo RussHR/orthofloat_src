@@ -101,11 +101,15 @@ export default class Orthofloat extends Component {
     }
 
     initializeRandomShapes() {
-        const color = new THREE.Color(this.props.bottomColor.r, this.props.bottomColor.g, this.props.bottomColor.b);
-        this.randomShapeMaterialBottom = new THREE.MeshBasicMaterial({ color });
+        const { bottomColor, topColor } = this.props;
+        const threeTopColor = new THREE.Color(topColor.r, topColor.g, topColor.b);
+        const threeBottomColor = new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b);
+        this.randomShapeMaterialTop = new THREE.MeshBasicMaterial({ color: threeTopColor });
+        this.randomShapeMaterialBottom = new THREE.MeshBasicMaterial({ color: threeBottomColor });
         this.randomShapes = [];
         for (let i = 0; i < 53; i++) {
-            const shape = new THREE.Mesh(this.generateRandomGeometry(), this.randomShapeMaterialBottom);
+            const material = i % 2 === 0 ? this.randomShapeMaterialTop : this.randomShapeMaterialBottom;
+            const shape = new THREE.Mesh(this.generateRandomGeometry(), material);
             this.setMeshInSpace(shape);
             this.randomShapes.push(shape);
             this.scene.add(shape);
