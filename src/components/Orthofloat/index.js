@@ -259,7 +259,8 @@ export default class Orthofloat extends Component {
         };
         const stripeStyle = {
             width: `${this.stripeWidth}px`,
-            marginRight: `${this.stripeWidth}px`
+            marginRight: `${this.stripeWidth}px`,
+            backgroundImage: `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`
         };
         const numOfStripes = Math.ceil(this.windowWidth / (this.stripeWidth * 2));
         let stripes = [];
