@@ -262,9 +262,32 @@ export default class Orthofloat extends Component {
         }
 
         const { windowHeight, windowWidth } = this.state;
+        const { topColor, bottomColor } = this.props;
 
         for (let mesh of this.randomShapes) {
             this.moveMesh(mesh);
+
+            if (mesh.colorTopToBottom) {
+                const visibleHeight = (windowHeight / 8);
+                const positionFromBottom = mesh.position.y + (windowHeight / 16);
+                const ratioUpScreen = Math.min(Math.max(positionFromBottom / visibleHeight, 0), 1);
+                const newColor = {
+                    r: topColor.r * (1 - ratioUpScreen) + bottomColor.r * ratioUpScreen,
+                    g: topColor.g * (1 - ratioUpScreen) + bottomColor.g * ratioUpScreen,
+                    b: topColor.b * (1 - ratioUpScreen) + bottomColor.b * ratioUpScreen
+                };
+                mesh.material.color = newColor;
+            } else if (mesh.colorBottomToTop) {
+                const visibleHeight = (windowHeight / 8);
+                const positionFromBottom = mesh.position.y + (windowHeight / 16);
+                const ratioUpScreen = Math.min(Math.max(positionFromBottom / visibleHeight, 0), 1);
+                const newColor = {
+                    r: bottomColor.r * (1 - ratioUpScreen) + topColor.r * ratioUpScreen,
+                    g: bottomColor.g * (1 - ratioUpScreen) + topColor.g * ratioUpScreen,
+                    b: bottomColor.b * (1 - ratioUpScreen) + topColor.b * ratioUpScreen
+                };
+                mesh.material.color = newColor;
+            }
         }
 
         for (let mesh of this.tetras) {
