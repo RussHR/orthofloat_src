@@ -35,16 +35,22 @@ export default class Orthofloat extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (!lodashIsEqual(nextProps.bottomColor, this.props.bottomColor)) {
-            const { randomShapeMaterialBottom } = this;
+            const { randomShapeMaterialBottom, randomShapeMaterialTop } = this;
             const oldColors = {
                 bottomR: this.props.bottomColor.r,
                 bottomG: this.props.bottomColor.g,
-                bottomB: this.props.bottomColor.b
+                bottomB: this.props.bottomColor.b,
+                topR: this.props.topColor.r,
+                topG: this.props.topColor.g,
+                topB: this.props.topColor.b
             };
             const newColors = {
                 bottomR: nextProps.bottomColor.r,
                 bottomG: nextProps.bottomColor.g,
-                bottomB: nextProps.bottomColor.b
+                bottomB: nextProps.bottomColor.b,
+                topR: nextProps.topColor.r,
+                topG: nextProps.topColor.g,
+                topB: nextProps.topColor.b
             };
             const tween = new TWEEN.Tween(oldColors)
                 .to(newColors, 1000)
@@ -54,6 +60,11 @@ export default class Orthofloat extends Component {
                         r: this.bottomR,
                         g: this.bottomG,
                         b: this.bottomB
+                    };
+                    randomShapeMaterialTop.color = {
+                        r: this.topR,
+                        g: this.topG,
+                        b: this.topB
                     };
                 })
                 .start();
