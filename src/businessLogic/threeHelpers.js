@@ -6,6 +6,10 @@ export function averageRGB({ r: r1, g: g1, b: b1 }, { r: r2, g: g2, b: b2 }) {
     };
 }
 
+export function mergeTopAndBottomColors({ r: topR, g: topG, b: topB }, { r: bottomR, g: bottomG, b: bottomB }) {
+    return { bottomR, bottomG, bottomB, topR, topG, topB };
+}
+
 export function randomRGB() {
     return {
         r: Math.random(),
