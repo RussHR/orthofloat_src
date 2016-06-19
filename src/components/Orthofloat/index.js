@@ -8,7 +8,7 @@ import lodashThrottle from 'lodash/throttle';
 import lodashIsEqual from 'lodash/isEqual';
 
 import { randomWithRange } from '../../businessLogic/mathHelpers';
-import { averageRGB, mergeTopAndBottomColors, randomRGB } from '../../businessLogic/threeHelpers';
+import { averageRGB, currentColorInTween, mergeTopAndBottomColors, randomRGB } from '../../businessLogic/threeHelpers';
 
 import './orthofloat.scss';
 
@@ -44,16 +44,9 @@ export default class Orthofloat extends Component {
                 .to(newColors, 1000)
                 .easing(TWEEN.Easing.Quadratic.Out)
                 .onUpdate(function() {
-                    randomShapeMaterialBottom.color = {
-                        r: this.bottomR,
-                        g: this.bottomG,
-                        b: this.bottomB
-                    };
-                    randomShapeMaterialTop.color = {
-                        r: this.topR,
-                        g: this.topG,
-                        b: this.topB
-                    };
+                    randomShapeMaterialBottom.color = currentColorInTween(this, 'bottom');
+                    randomShapeMaterialTop.color = currentColorInTween(this, 'top');
+
                     randomShapeMaterialMid.color = averageRGB(
                         randomShapeMaterialBottom.color,
                         randomShapeMaterialTop.color
