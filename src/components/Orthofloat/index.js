@@ -8,7 +8,11 @@ import lodashThrottle from 'lodash/throttle';
 import lodashIsEqual from 'lodash/isEqual';
 
 import { randomWithRange } from '../../businessLogic/mathHelpers';
-import { averageRGB, currentColorInTween, mergeTopAndBottomColors, randomRGB } from '../../businessLogic/threeHelpers';
+import { averageRGB,
+         currentColorInTween,
+         getColorFromPosition,
+         mergeTopAndBottomColors,
+         randomRGB } from '../../businessLogic/threeHelpers';
 
 import './orthofloat.scss';
 
@@ -260,25 +264,9 @@ export default class Orthofloat extends Component {
             this.moveMesh(mesh);
 
             if (mesh.colorTopToBottom) {
-                const visibleHeight = (windowHeight / 8);
-                const positionFromBottom = mesh.position.y + (windowHeight / 16);
-                const ratioUpScreen = Math.min(Math.max(positionFromBottom / visibleHeight, 0), 1);
-                const newColor = {
-                    r: topColor.r * (1 - ratioUpScreen) + bottomColor.r * ratioUpScreen,
-                    g: topColor.g * (1 - ratioUpScreen) + bottomColor.g * ratioUpScreen,
-                    b: topColor.b * (1 - ratioUpScreen) + bottomColor.b * ratioUpScreen
-                };
-                mesh.material.color = newColor;
+                mesh.material.color = getColorFromPosition(mesh.position.y, windowHeight, topColor, bottomColor);
             } else if (mesh.colorBottomToTop) {
-                const visibleHeight = (windowHeight / 8);
-                const positionFromBottom = mesh.position.y + (windowHeight / 16);
-                const ratioUpScreen = Math.min(Math.max(positionFromBottom / visibleHeight, 0), 1);
-                const newColor = {
-                    r: bottomColor.r * (1 - ratioUpScreen) + topColor.r * ratioUpScreen,
-                    g: bottomColor.g * (1 - ratioUpScreen) + topColor.g * ratioUpScreen,
-                    b: bottomColor.b * (1 - ratioUpScreen) + topColor.b * ratioUpScreen
-                };
-                mesh.material.color = newColor;
+                mesh.material.color = getColorFromPosition(mesh.position.y, windowHeight, bottomColor, topColor);
             }
         }
 

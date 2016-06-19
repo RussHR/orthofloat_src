@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { averageRGB, currentColorInTween, mergeTopAndBottomColors, randomRGB } from './threeHelpers';
+import { averageRGB,
+         currentColorInTween,
+         getColorFromPosition,
+         mergeTopAndBottomColors,
+         randomRGB } from './threeHelpers';
 
 describe('threeHelpers', () => {
     describe('averageRGB', () => {
@@ -28,6 +32,44 @@ describe('threeHelpers', () => {
 
         it('returns an object with the rgb values of the bottom colors', () => {
             expect(currentColorInTween(color, 'bottom')).to.deep.equal({ r: 0.534, g: 0.475, b: 0.254 });
+        });
+    });
+
+    describe('getColorFromPosition', () => {
+        it('returns an interpolated value for an object halfway up the window', () => {
+            const meshPositionY = 0;
+            const windowHeight = 1000;
+            const startColor = { r: 100, g: 50, b: 150};
+            const endColor = { r: 200, g: 30, b: 200};
+            expect(getColorFromPosition(meshPositionY, windowHeight, startColor, endColor))
+                .to.deep.equal({ r: 150, g: 40, b: 175 });
+        });
+
+        it('returns an interpolated value for an object a quarter up the window', () => {
+            const meshPositionY = -31.25;
+            const windowHeight = 1000;
+            const startColor = { r: 100, g: 50, b: 150};
+            const endColor = { r: 200, g: 30, b: 200};
+            expect(getColorFromPosition(meshPositionY, windowHeight, startColor, endColor))
+                .to.deep.equal({ r: 125, g: 45, b: 162.5 });
+        });
+
+        it('returns the startColor for a position below the bottom of the window', () => {
+            const meshPositionY = -100;
+            const windowHeight = 1000;
+            const startColor = { r: 100, g: 50, b: 150};
+            const endColor = { r: 200, g: 30, b: 200};
+            expect(getColorFromPosition(meshPositionY, windowHeight, startColor, endColor))
+                .to.deep.equal({ r: 100, g: 50, b: 150 });
+        });
+
+        it('returns the endColor for a position above the top of the window', () => {
+            const meshPositionY = 100;
+            const windowHeight = 1000;
+            const startColor = { r: 100, g: 50, b: 150};
+            const endColor = { r: 200, g: 30, b: 200};
+            expect(getColorFromPosition(meshPositionY, windowHeight, startColor, endColor))
+                .to.deep.equal({ r: 200, g: 30, b: 200 });
         });
     });
 

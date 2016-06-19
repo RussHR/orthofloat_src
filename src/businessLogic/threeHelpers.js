@@ -14,6 +14,18 @@ export function currentColorInTween(colorData, topOrBottom) {
     };
 }
 
+export function getColorFromPosition(meshPositionY, windowHeight, startColor, endColor) {
+    const visibleHeight = (windowHeight / 8);
+    const positionFromBottom = meshPositionY + (windowHeight / 16);
+    const ratioUpScreen = Math.min(Math.max(positionFromBottom / visibleHeight, 0), 1);
+
+    return {
+        r: startColor.r * (1 - ratioUpScreen) + endColor.r * ratioUpScreen,
+        g: startColor.g * (1 - ratioUpScreen) + endColor.g * ratioUpScreen,
+        b: startColor.b * (1 - ratioUpScreen) + endColor.b * ratioUpScreen
+    };
+}
+
 export function mergeTopAndBottomColors({ r: topR, g: topG, b: topB }, { r: bottomR, g: bottomG, b: bottomB }) {
     return { bottomR, bottomG, bottomB, topR, topG, topB };
 }
