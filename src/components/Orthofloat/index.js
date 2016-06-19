@@ -7,6 +7,8 @@ import Stats from 'stats.js';
 import lodashThrottle from 'lodash/throttle';
 import lodashIsEqual from 'lodash/isEqual';
 
+import Stripes from '../Stripes';
+
 import { randomWithRange } from '../../businessLogic/mathHelpers';
 import { averageRGB,
          currentColorInTween,
@@ -322,22 +324,14 @@ export default class Orthofloat extends Component {
         const wrapperStyle = {
             backgroundImage: `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`
         };
-        const stripeStyle = {
-            width: `${this.stripeWidth}px`,
-            marginRight: `${this.stripeWidth}px`,
-            backgroundImage: `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`
-        };
-        const numOfStripes = Math.ceil(windowWidth / (this.stripeWidth * 2));
-        let stripes = [];
-        for (let i = 0; i < numOfStripes; i++) {
-            stripes.push(<div className="orthofloat-stripe" style={stripeStyle} key={i} />);
-        }
 
         return (
             <div className={className} style={wrapperStyle} ref={c => this.el = c}>
-                <div className="orthofloat-stripes">
-                    {stripes}
-                </div>
+                <Stripes stripeWidth={this.stripeWidth}
+                         vendorPrefix={this.vendorPrefix}
+                         topColorStyle={topColorStyle}
+                         bottomColorStyle={bottomColorStyle}
+                         windowWidth={windowWidth} />
             </div>
         );
     }
