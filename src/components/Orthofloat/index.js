@@ -148,19 +148,33 @@ export default class Orthofloat extends Component {
 
     generateRandomGeometry() {
         const meshSize = randomWithRange(0.25, 2) * this.meshSize;
+        const cylRadius = randomWithRange(meshSize / 2, meshSize);
+
         switch (Math.floor(Math.random() * 11)) {
             case 10:
                 return new THREE.TorusKnotGeometry(
-                    meshSize, meshSize / 3, 40, 12, randomWithRange(1, 20), randomWithRange(1, 20)
+                    meshSize, meshSize / 3, 32, 12, randomWithRange(1, 7), randomWithRange(1, 10)
                 );
             case 9:
-                return new THREE.TorusGeometry(meshSize, meshSize / 4, 16, 16, 4);
+                return new THREE.TorusGeometry(
+                    meshSize, meshSize / 4, 16, 16, randomWithRange(Math.PI / 2, Math.PI * 3)
+                );
             case 8:
-                return new THREE.SphereGeometry(meshSize, 16, 16);
+                return new THREE.SphereGeometry(
+                    meshSize,
+                    16,
+                    16,
+                    0,
+                    randomWithRange(Math.PI / 2, Math.PI * 3),
+                    0,
+                    randomWithRange(Math.PI / 2, Math.PI)
+                );
             case 7:
-                return new THREE.RingGeometry(meshSize / 2, meshSize, 16);
+                return new THREE.RingGeometry(
+                    meshSize / 2, meshSize, 16, 1, 0, randomWithRange(Math.PI / 2, Math.PI * 3)
+                );
             case 6:
-                return new THREE.PlaneGeometry(meshSize, meshSize, 0);
+                return new THREE.PlaneGeometry(meshSize, meshSize, 1, 1);
             case 5:
                 return new THREE.OctahedronGeometry(meshSize, 0);
             case 4:
@@ -168,7 +182,16 @@ export default class Orthofloat extends Component {
             case 3:
                 return new THREE.DodecahedronGeometry(meshSize, 0);
             case 2:
-                return new THREE.CylinderGeometry(meshSize, meshSize, meshSize, 16);
+                return new THREE.CylinderGeometry(
+                    cylRadius,
+                    cylRadius,
+                    randomWithRange(meshSize / 2, meshSize * 1.5),
+                    16,
+                    1,
+                    Math.random() < 0.5,
+                    0,
+                    randomWithRange(Math.PI / 2, Math.PI * 3)
+                );
             case 1:
                 return new THREE.CircleGeometry(meshSize, 16);
             case 0:
