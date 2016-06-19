@@ -8,7 +8,7 @@ import lodashThrottle from 'lodash/throttle';
 import lodashIsEqual from 'lodash/isEqual';
 
 import { randomWithRange } from '../../businessLogic/mathHelpers';
-import { averageRGB, randomRGB } from '../../businessLogic/threeHelpers';
+import { averageRGB, mergeTopAndBottomColors, randomRGB } from '../../businessLogic/threeHelpers';
 
 import './orthofloat.scss';
 
@@ -37,22 +37,9 @@ export default class Orthofloat extends Component {
     componentWillReceiveProps(nextProps) {
         if (!lodashIsEqual(nextProps.bottomColor, this.props.bottomColor)) {
             const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid } = this;
-            const oldColors = {
-                bottomR: this.props.bottomColor.r,
-                bottomG: this.props.bottomColor.g,
-                bottomB: this.props.bottomColor.b,
-                topR: this.props.topColor.r,
-                topG: this.props.topColor.g,
-                topB: this.props.topColor.b
-            };
-            const newColors = {
-                bottomR: nextProps.bottomColor.r,
-                bottomG: nextProps.bottomColor.g,
-                bottomB: nextProps.bottomColor.b,
-                topR: nextProps.topColor.r,
-                topG: nextProps.topColor.g,
-                topB: nextProps.topColor.b
-            };
+            const oldColors = mergeTopAndBottomColors(this.props.topColor, this.props.bottomColor);
+            const newColors = mergeTopAndBottomColors(nextProps.topColor, nextProps.bottomColor);
+
             const tween = new TWEEN.Tween(oldColors)
                 .to(newColors, 1000)
                 .easing(TWEEN.Easing.Quadratic.Out)
