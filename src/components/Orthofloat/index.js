@@ -67,11 +67,10 @@ export default class Orthofloat extends Component {
                         g: this.topG,
                         b: this.topB
                     };
-                    randomShapeMaterialMid.color = {
-                        r: (this.bottomR + this.topR) / 2,
-                        g: (this.bottomG + this.topG) / 2,
-                        b: (this.bottomB + this.topB) / 2
-                    };
+                    randomShapeMaterialMid.color = averageRGB(
+                        randomShapeMaterialBottom.color,
+                        randomShapeMaterialTop.color
+                    );
                 })
                 .start();
         }
@@ -123,11 +122,10 @@ export default class Orthofloat extends Component {
         const threeBottomColor = new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b);
         this.randomShapeMaterialTop = new THREE.MeshBasicMaterial({ color: threeTopColor });
         this.randomShapeMaterialBottom = new THREE.MeshBasicMaterial({ color: threeBottomColor });
-        this.randomShapeMaterialMid = new THREE.MeshBasicMaterial({ color: new THREE.Color(
-            (this.randomShapeMaterialTop.color.r + this.randomShapeMaterialBottom.color.r) / 2,
-            (this.randomShapeMaterialTop.color.g + this.randomShapeMaterialBottom.color.g) / 2,
-            (this.randomShapeMaterialTop.color.b + this.randomShapeMaterialBottom.color.b) / 2
-        )});
+        const averageColor = averageRGB(this.randomShapeMaterialTop.color, this.randomShapeMaterialBottom.color);
+        this.randomShapeMaterialMid = new THREE.MeshBasicMaterial({
+            color: new THREE.Color(averageColor.r, averageColor.g, averageColor.b)
+        });
         this.randomShapes = [];
         for (let i = 0; i < 53; i++) {
             let shape;
