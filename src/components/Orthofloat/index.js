@@ -7,7 +7,8 @@ import Stats from 'stats.js';
 import lodashThrottle from 'lodash/throttle';
 import lodashIsEqual from 'lodash/isEqual';
 
-import { randomWithRange, randomRGB } from '../../businessLogic/mathHelpers';
+import { randomWithRange } from '../../businessLogic/mathHelpers';
+import { averageRGB, randomRGB } from '../../businessLogic/threeHelpers';
 
 import './orthofloat.scss';
 
