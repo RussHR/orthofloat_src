@@ -262,24 +262,7 @@ export default class Orthofloat extends Component {
         const { windowHeight, windowWidth } = this.state;
         const { topColor, bottomColor } = this.props;
 
-        for (let i = this.randomShapes.length - 1; i >= 0; i--) {
-            const mesh = this.randomShapes[i];
-            // if shape is above top of window
-            if (mesh.position.y > (windowHeight / 16 + this.meshSize * 4)) {
-                // put it below the bottom of the window and give it a random z position
-                mesh.position.y -= (windowHeight / 8 + this.meshSize * 6);
-                mesh.position.z = randomWithRange(windowWidth / 16, windowWidth / -16);
-
-                // give it new velocities
-                mesh.yVelocity = randomWithRange(0.03, 0.1);
-                mesh.zVelocity = randomWithRange(-0.01, 0.01);
-
-                // give the mesh new rotation speeds
-                for (let axis of ['x', 'y', 'z']) {
-                    mesh.rotationSpeed[axis] = randomWithRange(-0.01, 0.01);
-                }
-            }
-
+        for (let mesh of this.randomShapes) {
             this.moveMesh(mesh);
 
             if (mesh.colorTopToBottom) {
@@ -290,11 +273,6 @@ export default class Orthofloat extends Component {
         }
 
         for (let mesh of this.tetras) {
-            // if shape is above top of window
-            if (mesh.position.y > (windowHeight / 16 + this.meshSize * 4)) {
-                this.repositionTetra(mesh);
-            }
-
             this.moveMesh(mesh);
         }
 
@@ -308,24 +286,25 @@ export default class Orthofloat extends Component {
         requestAnimationFrame(() => this.renderAnimation());
     }
 
-    repositionTetra(mesh) {
+    moveMesh(mesh) {
         const { windowHeight, windowWidth } = this.state;
 
-        // put it below the bottom of the window and give it a random z position
-        mesh.position.y -= (windowHeight / 8 + this.meshSize * 8);
-        mesh.position.z = randomWithRange(windowWidth / 16, windowWidth / -16);
+        // if shape is above top of window
+        if (mesh.position.y > (windowHeight / 16 + this.meshSize * 3)) {
+            // put it below the bottom of the window and give it a random z position
+            mesh.position.y -= (windowHeight / 8 + this.meshSize * 6);
+            mesh.position.z = randomWithRange(windowWidth / 16, windowWidth / -16);
 
-        // give it new velocities
-        mesh.yVelocity = randomWithRange(0.03, 0.1);
-        mesh.zVelocity = randomWithRange(-0.01, 0.01);
+            // give it new velocities
+            mesh.yVelocity = randomWithRange(0.03, 0.1);
+            mesh.zVelocity = randomWithRange(-0.01, 0.01);
 
-        // give the mesh new rotation speeds
-        for (let axis of ['x', 'y', 'z']) {
-            mesh.rotationSpeed[axis] = randomWithRange(-0.01, 0.01);
+            // give the mesh new rotation speeds
+            for (let axis of ['x', 'y', 'z']) {
+                mesh.rotationSpeed[axis] = randomWithRange(-0.01, 0.01);
+            }
         }
-    }
 
-    moveMesh(mesh) {
         // translate the mesh
         mesh.position.y += mesh.yVelocity;
         mesh.position.z += mesh.zVelocity;
