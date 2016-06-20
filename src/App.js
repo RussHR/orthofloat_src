@@ -24,6 +24,8 @@ export default class App extends Component {
             bottomColor: randomRGB(),
             topColor: randomRGB()
         });
+
+        this.orthofloatEl.moveCamera(120);
     }
 
     toggleStats() {
@@ -42,7 +44,8 @@ export default class App extends Component {
                 <Orthofloat bottomColor={bottomColor}
                             topColor={topColor}
                             initializeWithStats={true}
-                            showStats={showStats} />
+                            showStats={showStats}
+                            ref={(c) => this.orthofloatEl = c} />
             </div>
         );
     }

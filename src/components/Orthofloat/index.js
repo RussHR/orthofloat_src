@@ -282,6 +282,10 @@ export default class Orthofloat extends Component {
         this.camera.updateProjectionMatrix();
     }
 
+    moveCamera(angle) {
+        console.log(angle);
+    }
+
     renderAnimation() {
         if (this.stats && this.props.showStats) {
             this.stats.begin();
