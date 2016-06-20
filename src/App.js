@@ -22,7 +22,6 @@ export default class App extends Component {
 
     toggleColor() {
         const newAngle = getNewCameraAngle(this.state.cameraAngle);
-        console.log(newAngle);
         this.changeCameraAngle(newAngle);
 
         this.setState({
