@@ -41,29 +41,34 @@ export default class Orthofloat extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!lodashIsEqual(nextProps.bottomColor, this.props.bottomColor)) {
-            const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid } = this;
-            const oldColors = mergeTopAndBottomColors(this.props.topColor, this.props.bottomColor);
-            const newColors = mergeTopAndBottomColors(nextProps.topColor, nextProps.bottomColor);
-
-            const tween = new TWEEN.Tween(oldColors)
-                .to(newColors, 1000)
-                .easing(TWEEN.Easing.Quadratic.Out)
-                .onUpdate(function() {
-                    randomShapeMaterialBottom.color = currentColorInTween(this, 'bottom');
-                    randomShapeMaterialTop.color = currentColorInTween(this, 'top');
-
-                    randomShapeMaterialMid.color = averageRGB(
-                        randomShapeMaterialBottom.color,
-                        randomShapeMaterialTop.color
-                    );
-                })
-                .start();
+        if (!lodashIsEqual(nextProps.bottomColor, this.props.bottomColor)
+            || !lodashIsEqual(nextProps.topColor, this.props.topColor)) {
+            this.changeColors(nextProps.topColor, nextProps.bottomColor);
         }
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.windowResizeFunc);
+    }
+
+    changeColors(nextTopColor, nextBottomColor) {
+        const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid } = this;
+        const oldColors = mergeTopAndBottomColors(this.props.topColor, this.props.bottomColor);
+        const newColors = mergeTopAndBottomColors(nextTopColor, nextBottomColor);
+
+        const tween = new TWEEN.Tween(oldColors)
+            .to(newColors, 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .onUpdate(function() {
+                randomShapeMaterialBottom.color = currentColorInTween(this, 'bottom');
+                randomShapeMaterialTop.color = currentColorInTween(this, 'top');
+
+                randomShapeMaterialMid.color = averageRGB(
+                    randomShapeMaterialBottom.color,
+                    randomShapeMaterialTop.color
+                );
+            })
+            .start();
     }
 
     initializeScene() {
