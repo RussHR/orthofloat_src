@@ -11,7 +11,8 @@ export default class App extends Component {
             menuIsOpen: false,
             bottomColor: randomRGB(),
             topColor: randomRGB(),
-            showStats: false
+            showStats: false,
+            cameraAngle: 0
         };
     }
 
@@ -25,7 +26,11 @@ export default class App extends Component {
             topColor: randomRGB()
         });
 
-        this.orthofloatEl.moveCamera(120);
+        this.changeCameraAngle(Math.random());
+    }
+
+    changeCameraAngle(cameraAngle) {
+        this.setState({ cameraAngle }, () => this.orthofloatEl.moveCamera(cameraAngle));
     }
 
     toggleStats() {
