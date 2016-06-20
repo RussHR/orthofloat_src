@@ -9,7 +9,7 @@ import lodashIsEqual from 'lodash/isEqual';
 
 import Stripes from '../Stripes';
 
-import { randomWithRange } from '../../businessLogic/mathHelpers';
+import { randomWithRange, simplifyAngle } from '../../businessLogic/mathHelpers';
 import { averageRGB,
          currentColorInTween,
          getColorFromPosition,
@@ -283,6 +283,7 @@ export default class Orthofloat extends Component {
     }
 
     moveCamera(angle) {
+        const simplifiedAngle = simplifyAngle(angle);
         console.log(angle);
     }
 
