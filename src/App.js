@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Menu from './components/Menu';
 import Orthofloat from './components/Orthofloat';
 import { randomWithRange } from './businessLogic/mathHelpers';
-import { averageRGB, randomRGB } from './businessLogic/threeHelpers';
+import { averageRGB, getNewCameraAngle, randomRGB } from './businessLogic/threeHelpers';
 
 export default class App extends Component {
     constructor(props) {
@@ -21,12 +21,12 @@ export default class App extends Component {
     }
 
     toggleColor() {
+        this.changeCameraAngle(getNewCameraAngle(this.state.cameraAngle));
+
         this.setState({
             bottomColor: randomRGB(),
             topColor: randomRGB()
         });
-
-        this.changeCameraAngle(Math.random());
     }
 
     changeCameraAngle(cameraAngle) {

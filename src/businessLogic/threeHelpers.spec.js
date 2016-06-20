@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { averageRGB,
          currentColorInTween,
          getColorFromPosition,
+         getNewCameraAngle,
          mergeTopAndBottomColors,
          randomRGB } from './threeHelpers';
 
@@ -62,6 +63,44 @@ describe('threeHelpers', () => {
             const meshPositionY = 100;
             expect(getColorFromPosition(meshPositionY, windowHeight, startColor, endColor))
                 .to.deep.equal({ r: 200, g: 30, b: 200 });
+        });
+    });
+
+    describe('getNewCameraAngle', () => {
+        it('returns one of 0, 90, 180, or 270', () => {
+            sinon.stub(Math, 'random').returns(0);
+            expect(getNewCameraAngle()).to.equal(0);
+            Math.random.restore();
+
+            sinon.stub(Math, 'random').returns(0.3);
+            expect(getNewCameraAngle()).to.equal(90);
+            Math.random.restore();
+
+            sinon.stub(Math, 'random').returns(0.6);
+            expect(getNewCameraAngle()).to.equal(180);
+            Math.random.restore();
+
+            sinon.stub(Math, 'random').returns(0.9);
+            expect(getNewCameraAngle()).to.equal(270);
+            Math.random.restore();
+        });
+
+        it('does not return the angle supplied as an arg', () => {
+            sinon.stub(Math, 'random').returns(0);
+            expect(getNewCameraAngle(0)).to.not.equal(0);
+            Math.random.restore();
+
+            sinon.stub(Math, 'random').returns(0.3);
+            expect(getNewCameraAngle(90)).to.not.equal(90);
+            Math.random.restore();
+
+            sinon.stub(Math, 'random').returns(0.7);
+            expect(getNewCameraAngle(180)).to.not.equal(180);
+            Math.random.restore();
+
+            sinon.stub(Math, 'random').returns(0.9);
+            expect(getNewCameraAngle(270)).to.not.equal(270);
+            Math.random.restore();
         });
     });
 

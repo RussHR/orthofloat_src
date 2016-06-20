@@ -26,6 +26,16 @@ export function getColorFromPosition(meshPositionY, windowHeight, startColor, en
     };
 }
 
+export function getNewCameraAngle(oldAngle) {
+    const possibleAngles = [0, 90, 180, 270];
+    const indexOldAngle = possibleAngles.indexOf(oldAngle);
+    if (indexOldAngle > -1) {
+        possibleAngles.splice(indexOldAngle, 1);
+    }
+
+    return possibleAngles[Math.floor(Math.random() * possibleAngles.length)];
+}
+
 export function mergeTopAndBottomColors({ r: topR, g: topG, b: topB }, { r: bottomR, g: bottomG, b: bottomB }) {
     return { bottomR, bottomG, bottomB, topR, topG, topB };
 }
