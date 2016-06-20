@@ -283,8 +283,21 @@ export default class Orthofloat extends Component {
     }
 
     moveCamera(angle) {
-        const simplifiedAngle = simplifyAngle(angle);
-        console.log(angle);
+        const { camera, scene } = this;
+        console.log(camera.position.x, camera.position.z);
+        const oldAngle = { angle: Math.atan(camera.position.z / camera.position.x) };
+        const newAngle = { angle: simplifyAngle(angle) * (Math.PI / 180) };
+        console.log(oldAngle, newAngle);
+
+        const tween = new TWEEN.Tween(oldAngle)
+            .to(newAngle, 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .onUpdate(function() {
+                camera.position.x = 120 * Math.cos(this.angle);
+                camera.position.z = 120 * Math.sin(this.angle);
+                camera.lookAt(scene.position);
+            })
+            .start();
     }
 
     renderAnimation() {
