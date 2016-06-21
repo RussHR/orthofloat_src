@@ -17,9 +17,10 @@ export default class Menu extends Component {
                     <div className="menu-close" onClick={onClickToggleMenu}>
                         X
                     </div>
-                    <h1>orthofloat</h1>
+                    <h3 className="menu-title">orthofloat</h3>
                     <p>
                         made by <a href="http://www.russrinzler.com" target="_blank">Russ Rinzler</a>.
+                        <br />
                         click <a href="https://github.com/RussHR/orthofloat_src" target="_blank">here</a> for the code.
                     </p>
                     <button onClick={onClickToggleColor}>
