@@ -220,6 +220,7 @@ export default class Orthofloat extends Component {
 
     setMeshInSpace(mesh) {
         const { windowHeight, windowWidth } = this.state;
+        mesh.position.x = randomWithRange(windowWidth / 16, windowWidth / -16);
         mesh.position.y = randomWithRange(windowHeight / 16, windowHeight / -16);
         mesh.position.z = randomWithRange(windowWidth / 16, windowWidth / -16);
         mesh.rotation.set(randomWithRange(0, Math.PI), randomWithRange(0, Math.PI), randomWithRange(0, Math.PI));
@@ -228,6 +229,12 @@ export default class Orthofloat extends Component {
             y: randomWithRange(-0.01, 0.01),
             z: randomWithRange(-0.01, 0.01)
         };
+
+        this.assignMeshVelocities(mesh);
+    }
+
+    assignMeshVelocities(mesh) {
+        mesh.xVelocity = randomWithRange(-0.01, 0.01);
         mesh.yVelocity = randomWithRange(0.03, 0.1);
         mesh.zVelocity = randomWithRange(-0.01, 0.01);
     }
@@ -348,8 +355,7 @@ export default class Orthofloat extends Component {
         mesh.position.z = randomWithRange(windowWidth / 16, windowWidth / -16);
 
         // give it new velocities
-        mesh.yVelocity = randomWithRange(0.03, 0.1);
-        mesh.zVelocity = randomWithRange(-0.01, 0.01);
+        this.assignMeshVelocities(mesh);
 
         // give the mesh new rotation speeds
         for (let axis of ['x', 'y', 'z']) {
@@ -360,13 +366,10 @@ export default class Orthofloat extends Component {
     moveMesh(mesh) {
         const { windowHeight, windowWidth } = this.state;
 
-        // translate the mesh
-        mesh.position.y += mesh.yVelocity;
-        mesh.position.z += mesh.zVelocity;
-
         // rotate the mesh around its axes
         for (let axis of ['x', 'y', 'z']) {
-            mesh.rotation[axis] += mesh.rotationSpeed[axis];
+            mesh.position[axis] += mesh[`${axis}Velocity`]; // translate the mesh
+            mesh.rotation[axis] += mesh.rotationSpeed[axis]; // rotate the mesh
         }
     }
 
