@@ -9,7 +9,7 @@ import lodashIsEqual from 'lodash/isEqual';
 
 import Stripes from '../Stripes';
 
-import { randomWithRange, simplifyAngle } from '../../businessLogic/mathHelpers';
+import { makeRadiansPositive, randomWithRange, simplifyAngle } from '../../businessLogic/mathHelpers';
 import { averageRGB,
          currentColorInTween,
          getColorFromPosition,
@@ -31,6 +31,7 @@ export default class Orthofloat extends Component {
     componentWillMount() {
         this.setVendorPrefix();
         this.stripeWidth = 25;
+        this.tweenLength = 2500;
     }
 
     componentDidMount() {
@@ -57,7 +58,7 @@ export default class Orthofloat extends Component {
         const newColors = mergeTopAndBottomColors(nextTopColor, nextBottomColor);
 
         const tween = new TWEEN.Tween(oldColors)
-            .to(newColors, 1000)
+            .to(newColors, this.tweenLength)
             .easing(TWEEN.Easing.Quadratic.Out)
             .onUpdate(function() {
                 randomShapeMaterialBottom.color = currentColorInTween(this, 'bottom');
@@ -291,11 +292,11 @@ export default class Orthofloat extends Component {
 
     moveCamera(angle) {
         const { camera, scene } = this;
-        const oldAngle = { angle: Math.atan2(camera.position.z, camera.position.x) };
+        const oldAngle = { angle: makeRadiansPositive(Math.atan2(camera.position.z, camera.position.x)) };
         const newAngle = { angle: simplifyAngle(angle) * (Math.PI / 180) };
 
         const tween = new TWEEN.Tween(oldAngle)
-            .to(newAngle, 1000)
+            .to(newAngle, this.tweenLength)
             .easing(TWEEN.Easing.Quadratic.Out)
             .onUpdate(function() {
                 camera.position.x = 120 * Math.cos(this.angle);

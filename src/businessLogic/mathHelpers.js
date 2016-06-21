@@ -1,3 +1,16 @@
+export function makeRadiansPositive(radians) {
+    if (radians >= 0) {
+        return radians;
+    }
+
+    let posRadians = radians;
+    while (posRadians < 0) {
+        posRadians += Math.PI * 2;
+    }
+
+    return posRadians;
+}
+
 export function randomWithRange(min, max) {
     return Math.random() * (max - min) + min;
 }
