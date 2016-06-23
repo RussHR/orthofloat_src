@@ -31,7 +31,7 @@ export default class Orthofloat extends Component {
     componentWillMount() {
         this.setVendorPrefix();
         this.stripeWidth = 25;
-        this.tweenLength = 2500;
+        this.tweenLength = 2000;
     }
 
     componentDidMount() {
