@@ -56,11 +56,16 @@ export default class Orthofloat extends Component {
         const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
         const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
 
-        this.setBackgroundColor(null, topColorStyle, bottomColorStyle);
+        const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
+        this.setBackgroundColor(stripeDivs, topColorStyle, bottomColorStyle);
     }
 
     setBackgroundColor(stripeDivs, topColorStyle, bottomColorStyle) {
         this.el.style.backgroundImage = `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
+        for (let stripe of stripeDivs) {
+            stripe.style.backgroundImage = 
+                `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`;
+        }
     }
 
     changeColors(nextTopColor, nextBottomColor) {
@@ -386,17 +391,13 @@ export default class Orthofloat extends Component {
     }
 
     render() {
-        const { showStats, topColor, bottomColor } = this.props;
         const { windowHeight, windowWidth } = this.state;
-        const className = classNames('orthofloat-wrapper', { 'show-stats': showStats });
-        const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
-        const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
+        const className = classNames('orthofloat-wrapper', { 'show-stats': this.props.showStats });
 
         // stripes
         const stripeStyle = {
             width: `${this.stripeWidth}px`,
-            marginRight: `${this.stripeWidth}px`,
-            backgroundImage: `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`
+            marginRight: `${this.stripeWidth}px`
         };
         const numOfStripes = Math.ceil(windowWidth / (this.stripeWidth * 2));
         let stripes = [];
