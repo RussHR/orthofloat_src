@@ -55,17 +55,26 @@ export default class Orthofloat extends Component {
         const { topColor, bottomColor } = this.props;
         const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
         const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
+        this.el.style.backgroundImage = `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
 
         const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
-        this.setBackgroundColor(stripeDivs, topColorStyle, bottomColorStyle);
+        this.setStripesColor(stripeDivs, topColorStyle, bottomColorStyle);
     }
 
-    setBackgroundColor(stripeDivs, topColorStyle, bottomColorStyle) {
-        this.el.style.backgroundImage = `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
+    setStripesColor(stripeDivs, topColorStyle, bottomColorStyle) {
         for (let stripe of stripeDivs) {
             stripe.style.backgroundImage = 
                 `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`;
         }
+    }
+
+    recolorStripes() {
+        const { topColor, bottomColor } = this.props;
+        const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
+        const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
+
+        const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
+        this.setStripesColor(stripeDivs, topColorStyle, bottomColorStyle);
     }
 
     changeColors(nextTopColor, nextBottomColor) {
@@ -304,6 +313,8 @@ export default class Orthofloat extends Component {
         this.camera.top = windowHeight / this.camFactor;
         this.camera.bottom = windowHeight / -this.camFactor;
         this.camera.updateProjectionMatrix();
+
+        this.recolorStripes();
     }
 
     moveCamera(angle) {
