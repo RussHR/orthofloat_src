@@ -304,7 +304,7 @@ export default class Orthofloat extends Component {
         const windowHeight = window.innerHeight,
               windowWidth = window.innerWidth;
 
-        this.setState({ windowHeight, windowWidth });
+        this.setState({ windowHeight, windowWidth }, this.recolorStripes);
 
         this.renderer.setSize(windowWidth, windowHeight);
 
@@ -313,8 +313,6 @@ export default class Orthofloat extends Component {
         this.camera.top = windowHeight / this.camFactor;
         this.camera.bottom = windowHeight / -this.camFactor;
         this.camera.updateProjectionMatrix();
-
-        this.recolorStripes();
     }
 
     moveCamera(angle) {
