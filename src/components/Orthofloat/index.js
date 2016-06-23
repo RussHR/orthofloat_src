@@ -62,8 +62,8 @@ export default class Orthofloat extends Component {
     }
 
     setStripesColor(stripeDivs, topColorStyle, bottomColorStyle) {
-        for (let stripe of stripeDivs) {
-            stripe.style.backgroundImage = 
+        for (let i = 0; i < stripeDivs.length; i++) {
+            stripeDivs[i].style.backgroundImage =
                 `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`;
         }
     }
