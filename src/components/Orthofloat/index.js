@@ -343,8 +343,8 @@ export default class Orthofloat extends Component {
             this.stats.begin();
         }
 
-        const { windowHeight, windowWidth } = this.state;
-        const { topColor, bottomColor } = this.props;
+        const { windowHeight } = this.state;
+        const { randomShapeMaterialTop, randomShapeMaterialBottom } = this;
 
         for (let mesh of this.randomShapes) {
             // if shape is above top of window
@@ -356,9 +356,13 @@ export default class Orthofloat extends Component {
             this.moveMesh(mesh);
 
             if (mesh.colorTopToBottom) {
-                mesh.material.color = getColorFromPosition(mesh.position.y, windowHeight, topColor, bottomColor);
+                mesh.material.color = getColorFromPosition(
+                    mesh.position.y, windowHeight, randomShapeMaterialTop.color, randomShapeMaterialBottom.color
+                );
             } else if (mesh.colorBottomToTop) {
-                mesh.material.color = getColorFromPosition(mesh.position.y, windowHeight, bottomColor, topColor);
+                mesh.material.color = getColorFromPosition(
+                    mesh.position.y, windowHeight, randomShapeMaterialBottom.color, randomShapeMaterialTop.color
+                );
             }
         }
 
