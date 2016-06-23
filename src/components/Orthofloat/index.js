@@ -7,8 +7,6 @@ import Stats from 'stats.js';
 import lodashThrottle from 'lodash/throttle';
 import lodashIsEqual from 'lodash/isEqual';
 
-import Stripes from '../Stripes';
-
 import { makeRadiansPositive, randomWithRange, simplifyAngle } from '../../businessLogic/mathHelpers';
 import { averageRGB,
          currentColorInTween,
@@ -36,6 +34,7 @@ export default class Orthofloat extends Component {
 
     componentDidMount() {
         this.initializeScene();
+        this.initializeBackground();
 
         this.windowResizeFunc = lodashThrottle(() => this.onWindowResize(), 16.667);
         window.addEventListener('resize', this.windowResizeFunc);
@@ -52,10 +51,38 @@ export default class Orthofloat extends Component {
         window.removeEventListener('resize', this.windowResizeFunc);
     }
 
+    initializeBackground() {
+        const { topColor, bottomColor } = this.props;
+        const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
+        const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
+        this.el.style.backgroundImage = `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
+
+        const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
+        this.setStripesColor(stripeDivs, topColorStyle, bottomColorStyle);
+    }
+
+    setStripesColor(stripeDivs, topColorStyle, bottomColorStyle) {
+        for (let stripe of stripeDivs) {
+            stripe.style.backgroundImage = 
+                `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`;
+        }
+    }
+
+    recolorStripes() {
+        const { topColor, bottomColor } = this.props;
+        const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
+        const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
+
+        const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
+        this.setStripesColor(stripeDivs, topColorStyle, bottomColorStyle);
+    }
+
     changeColors(nextTopColor, nextBottomColor) {
-        const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid } = this;
+        const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid, setStripesColor } = this;
+        const that = this;
         const oldColors = mergeTopAndBottomColors(this.props.topColor, this.props.bottomColor);
         const newColors = mergeTopAndBottomColors(nextTopColor, nextBottomColor);
+        const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
 
         const tween = new TWEEN.Tween(oldColors)
             .to(newColors, this.tweenLength)
@@ -68,6 +95,11 @@ export default class Orthofloat extends Component {
                     randomShapeMaterialBottom.color,
                     randomShapeMaterialTop.color
                 );
+
+                const topColorStyle = (new THREE.Color(this.topR, this.topG, this.topB)).getStyle();
+                const bottomColorStyle = (new THREE.Color(this.bottomR, this.bottomG, this.bottomB)).getStyle();
+                that.el.style.backgroundImage = `${that.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
+                setStripesColor.call(that, stripeDivs, topColorStyle, bottomColorStyle);
             })
             .start();
     }
@@ -279,7 +311,7 @@ export default class Orthofloat extends Component {
         const windowHeight = window.innerHeight,
               windowWidth = window.innerWidth;
 
-        this.setState({ windowHeight, windowWidth });
+        this.setState({ windowHeight, windowWidth }, this.recolorStripes);
 
         this.renderer.setSize(windowWidth, windowHeight);
 
@@ -311,8 +343,8 @@ export default class Orthofloat extends Component {
             this.stats.begin();
         }
 
-        const { windowHeight, windowWidth } = this.state;
-        const { topColor, bottomColor } = this.props;
+        const { windowHeight } = this.state;
+        const { randomShapeMaterialTop, randomShapeMaterialBottom } = this;
 
         for (let mesh of this.randomShapes) {
             // if shape is above top of window
@@ -324,9 +356,13 @@ export default class Orthofloat extends Component {
             this.moveMesh(mesh);
 
             if (mesh.colorTopToBottom) {
-                mesh.material.color = getColorFromPosition(mesh.position.y, windowHeight, topColor, bottomColor);
+                mesh.material.color = getColorFromPosition(
+                    mesh.position.y, windowHeight, randomShapeMaterialTop.color, randomShapeMaterialBottom.color
+                );
             } else if (mesh.colorBottomToTop) {
-                mesh.material.color = getColorFromPosition(mesh.position.y, windowHeight, bottomColor, topColor);
+                mesh.material.color = getColorFromPosition(
+                    mesh.position.y, windowHeight, randomShapeMaterialBottom.color, randomShapeMaterialTop.color
+                );
             }
         }
 
@@ -375,22 +411,25 @@ export default class Orthofloat extends Component {
     }
 
     render() {
-        const { showStats, topColor, bottomColor } = this.props;
         const { windowHeight, windowWidth } = this.state;
-        const className = classNames('orthofloat-wrapper', { 'show-stats': showStats });
-        const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
-        const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
-        const wrapperStyle = {
-            backgroundImage: `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`
+        const className = classNames('orthofloat-wrapper', { 'show-stats': this.props.showStats });
+
+        // stripes
+        const stripeStyle = {
+            width: `${this.stripeWidth}px`,
+            marginRight: `${this.stripeWidth}px`
         };
+        const numOfStripes = Math.ceil(windowWidth / (this.stripeWidth * 2));
+        let stripes = [];
+        for (let i = 0; i < numOfStripes; i++) {
+            stripes.push(<div className="orthofloat-stripe" style={stripeStyle} key={i} />);
+        }
 
         return (
-            <div className={className} style={wrapperStyle} ref={c => this.el = c}>
-                <Stripes stripeWidth={this.stripeWidth}
-                         vendorPrefix={this.vendorPrefix}
-                         topColorStyle={topColorStyle}
-                         bottomColorStyle={bottomColorStyle}
-                         windowWidth={windowWidth} />
+            <div className={className} ref={c => this.el = c}>
+                <div className="orthofloat-stripes">
+                    {stripes}
+                </div>
             </div>
         );
     }
