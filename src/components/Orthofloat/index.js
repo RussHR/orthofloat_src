@@ -34,6 +34,7 @@ export default class Orthofloat extends Component {
 
     componentDidMount() {
         this.initializeScene();
+        this.initializeBackground();
 
         this.windowResizeFunc = lodashThrottle(() => this.onWindowResize(), 16.667);
         window.addEventListener('resize', this.windowResizeFunc);
@@ -48,6 +49,18 @@ export default class Orthofloat extends Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.windowResizeFunc);
+    }
+
+    initializeBackground() {
+        const { topColor, bottomColor } = this.props;
+        const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
+        const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
+
+        this.setBackgroundColor(null, topColorStyle, bottomColorStyle);
+    }
+
+    setBackgroundColor(stripeDivs, topColorStyle, bottomColorStyle) {
+        this.el.style.backgroundImage = `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
     }
 
     changeColors(nextTopColor, nextBottomColor) {
@@ -378,9 +391,6 @@ export default class Orthofloat extends Component {
         const className = classNames('orthofloat-wrapper', { 'show-stats': showStats });
         const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
         const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
-        const wrapperStyle = {
-            backgroundImage: `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`
-        };
 
         // stripes
         const stripeStyle = {
@@ -395,7 +405,7 @@ export default class Orthofloat extends Component {
         }
 
         return (
-            <div className={className} style={wrapperStyle} ref={c => this.el = c}>
+            <div className={className} ref={c => this.el = c}>
                 <div className="orthofloat-stripes">
                     {stripes}
                 </div>
