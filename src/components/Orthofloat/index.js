@@ -78,9 +78,11 @@ export default class Orthofloat extends Component {
     }
 
     changeColors(nextTopColor, nextBottomColor) {
-        const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid } = this;
+        const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid, setStripesColor } = this;
+        const that = this;
         const oldColors = mergeTopAndBottomColors(this.props.topColor, this.props.bottomColor);
         const newColors = mergeTopAndBottomColors(nextTopColor, nextBottomColor);
+        const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
 
         const tween = new TWEEN.Tween(oldColors)
             .to(newColors, this.tweenLength)
@@ -93,6 +95,11 @@ export default class Orthofloat extends Component {
                     randomShapeMaterialBottom.color,
                     randomShapeMaterialTop.color
                 );
+
+                const topColorStyle = (new THREE.Color(this.topR, this.topG, this.topB)).getStyle();
+                const bottomColorStyle = (new THREE.Color(this.bottomR, this.bottomG, this.bottomB)).getStyle();
+                that.el.style.backgroundImage = `${that.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
+                setStripesColor.call(that, stripeDivs, topColorStyle, bottomColorStyle);
             })
             .start();
     }
