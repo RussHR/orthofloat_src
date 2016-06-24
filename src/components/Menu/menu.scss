@@ -1,8 +1,10 @@
 #menu {
+    max-height: 100%;
     position: fixed;
     right: 0;
     font-size: 1rem;
     z-index: 10;
+    overflow: scroll;
 
     &.is-open {
         text-align: right;
