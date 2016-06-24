@@ -34,7 +34,7 @@ export default class Orthofloat extends Component {
 
     componentDidMount() {
         this.initializeScene();
-        this.initializeBackground();
+        this.setBackgroundColor(this.props.topColor, this.props.bottomColor);
 
         this.windowResizeFunc = lodashThrottle(() => this.onWindowResize(), 16.667);
         window.addEventListener('resize', this.windowResizeFunc);
@@ -51,15 +51,16 @@ export default class Orthofloat extends Component {
         window.removeEventListener('resize', this.windowResizeFunc);
     }
 
-    initializeBackground() {
-        const { topColor, bottomColor } = this.props;
+    setBackgroundColor(topColor, bottomColor) {
         const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
         const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
         this.styleEl.innerText = `.orthofloat-wrapper { background-image: ${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle});} .orthofloat-stripe { background-image: ${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle});}`;
     }
 
     changeColors(nextTopColor, nextBottomColor) {
-        const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid, styleEl, vendorPrefix } = this;
+        const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid } = this;
+        const setBackgroundColor = this.setBackgroundColor.bind(this);
+
         const oldColors = mergeTopAndBottomColors(this.props.topColor, this.props.bottomColor);
         const newColors = mergeTopAndBottomColors(nextTopColor, nextBottomColor);
 
@@ -75,9 +76,10 @@ export default class Orthofloat extends Component {
                     randomShapeMaterialTop.color
                 );
 
-                const topColorStyle = (new THREE.Color(this.topR, this.topG, this.topB)).getStyle();
-                const bottomColorStyle = (new THREE.Color(this.bottomR, this.bottomG, this.bottomB)).getStyle();
-                styleEl.innerText = `.orthofloat-wrapper { background-image: ${vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle});} .orthofloat-stripe { background-image: ${vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle});}`;
+                setBackgroundColor(
+                    { r: this.topR, g: this.topG, b: this.topB},
+                    { r: this.bottomR, g: this.bottomG, b: this.bottomB }
+                );
             })
             .start();
     }
@@ -302,7 +304,7 @@ export default class Orthofloat extends Component {
 
     moveCamera(angle) {
         const { camera, scene } = this;
-        const oldAngle = { angle: makeRadiansPositive(Math.atan2(camera.position.z, camera.position.x)) };
+        const oldAngle = { angle: Math.atan2(camera.position.z, camera.position.x) };
         const newAngle = { angle: simplifyAngle(angle) * (Math.PI / 180) };
 
         const tween = new TWEEN.Tween(oldAngle)
