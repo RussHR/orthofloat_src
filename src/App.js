@@ -19,10 +19,10 @@ export default class App extends Component {
         this.setState({ menuIsOpen: !this.state.menuIsOpen });
     }
 
-    toggleColor() {
+    changeColor(topColor, bottomColor) {
         this.setState({
-            bottomColor: randomRGB(),
-            topColor: randomRGB()
+            bottomColor,
+            topColor
         });
     }
 
@@ -41,10 +41,12 @@ export default class App extends Component {
             <div>
                 <Menu isOpen={menuIsOpen}
                       onClickToggleMenu={() => this.toggleMenu()}
-                      onClickToggleColor={() => this.toggleColor()}
+                      onClickChangeColor={(topColor, bottomColor) => this.changeColor(topColor, bottomColor)}
                       onClickToggleStats={() => this.toggleStats()}
                       cameraAngle={cameraAngle}
-                      onChangeCameraAngle={angle => this.changeCameraAngle(angle)} />
+                      onChangeCameraAngle={angle => this.changeCameraAngle(angle)}
+                      topColor={topColor}
+                      bottomColor={bottomColor} />
                 <Orthofloat bottomColor={bottomColor}
                             topColor={topColor}
                             initializeWithStats={true}

@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import lodashAssign from 'lodash/assign';
 
-import { getNewCameraAngle } from '../../businessLogic/threeHelpers';
+import { getNewCameraAngle, randomRGB } from '../../businessLogic/threeHelpers';
 
 import './menu.scss';
 
@@ -9,10 +10,12 @@ export default class Menu extends Component {
     render() {
         const { isOpen,
                 onClickToggleMenu,
-                onClickToggleColor,
+                onClickChangeColor,
                 onClickToggleStats,
                 cameraAngle,
-                onChangeCameraAngle } = this.props;
+                onChangeCameraAngle,
+                topColor,
+                bottomColor } = this.props;
         const menuClassNames = classNames({ 'is-open': isOpen });
 
         return (
@@ -33,9 +36,42 @@ export default class Menu extends Component {
                         click <a href="https://github.com/RussHR/orthofloat_src" target="_blank">here</a> for the code.
                     </p>
 
-                    <button onClick={onClickToggleColor}>
-                        change color
+                    <button onClick={() => onClickChangeColor(randomRGB(), randomRGB())}>
+                        toggle color
                     </button>
+
+                    <br /><br />
+
+                    <label className="menu-background" htmlFor="top-color-r">color 1 red </label>
+                    <input type="range"
+                           id="top-color-r"
+                           min="0"
+                           max="100"
+                           name="top-color"
+                           value={topColor.r * 100}
+                           onChange={e => onClickChangeColor(lodashAssign({}, topColor, { r: parseInt(e.target.value) / 100 }), bottomColor)} />
+
+                    <br /><br />
+
+                    <label className="menu-background" htmlFor="top-color-g">color 1 green </label>
+                    <input type="range"
+                           id="top-color-g"
+                           min="0"
+                           max="100"
+                           name="top-color"
+                           value={topColor.g * 100}
+                           onChange={e => onClickChangeColor(lodashAssign({}, topColor, { g: parseInt(e.target.value) / 100 }), bottomColor)} />
+
+                    <br /><br />
+
+                    <label className="menu-background" htmlFor="top-color-b">color 1 blue </label>
+                    <input type="range"
+                           id="top-color-b"
+                           min="0"
+                           max="100"
+                           name="top-color"
+                           value={topColor.b * 100}
+                           onChange={e => onClickChangeColor(lodashAssign({}, topColor, { b: parseInt(e.target.value) / 100 }), bottomColor)} />
 
                     <br /><br />
 
@@ -68,8 +104,18 @@ export default class Menu extends Component {
 Menu.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClickToggleMenu: PropTypes.func.isRequired,
-    onClickToggleColor: PropTypes.func.isRequired,
+    onClickChangeColor: PropTypes.func.isRequired,
     onClickToggleStats: PropTypes.func.isRequired,
     cameraAngle: PropTypes.number.isRequired,
-    onChangeCameraAngle: PropTypes.func.isRequired
+    onChangeCameraAngle: PropTypes.func.isRequired,
+    bottomColor: PropTypes.shape({
+        r: PropTypes.number.isRequired,
+        g: PropTypes.number.isRequired,
+        b: PropTypes.number.isRequired
+    }),
+    topColor: PropTypes.shape({
+        r: PropTypes.number.isRequired,
+        g: PropTypes.number.isRequired,
+        b: PropTypes.number.isRequired
+    })
 };
