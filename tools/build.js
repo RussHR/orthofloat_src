@@ -1,6 +1,6 @@
 // More info on Webpack's Node API here: https://webpack.github.io/docs/node.js-api.html
 // Allowing console calls below since this is a build file.
-/*eslint-disable no-console */
+/* eslint-disable no-console, max-len, no-unused-vars */
 import webpack from 'webpack';
 import config from '../webpack.config.prod';
 import colors from 'colors';

@@ -54,7 +54,11 @@ export default class Orthofloat extends Component {
     setBackgroundColor(topColor, bottomColor) {
         const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
         const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
-        this.styleEl.innerText = `.orthofloat-wrapper { background-image: ${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle});} .orthofloat-stripe { background-image: ${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle});}`;
+        const wrapperBgImage = `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
+        const stripeBgImage = `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`;
+        this.styleEl.innerText = 
+            `.orthofloat-wrapper { background-image: ${wrapperBgImage};}
+             .orthofloat-stripe { background-image: ${stripeBgImage};}`;
     }
 
     changeColors(nextTopColor, nextBottomColor) {

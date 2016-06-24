@@ -2,6 +2,8 @@ import webpack from 'webpack';
 import path from 'path';
 import autoprefixer from 'autoprefixer';
 
+/* eslint-disable max-len */
+
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('development'),
   __DEV__: true

@@ -5,7 +5,7 @@
 // In this case, the transformation is useful since we only want to track errors in the built production code.
 
 // Allowing console calls below since this is a build file.
-/*eslint-disable no-console */
+/* eslint-disable no-console, max-len, no-unused-vars */
 
 import fs from 'fs';
 import colors from 'colors';
