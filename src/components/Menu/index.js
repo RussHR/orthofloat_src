@@ -75,6 +75,39 @@ export default class Menu extends Component {
 
                     <br /><br />
 
+                    <label className="menu-background" htmlFor="bottom-color-r">color 2 red </label>
+                    <input type="range"
+                           id="bottom-color-r"
+                           min="0"
+                           max="100"
+                           name="bottom-color"
+                           value={bottomColor.r * 100}
+                           onChange={e => onClickChangeColor(topColor, lodashAssign({}, bottomColor, { r: parseInt(e.target.value) / 100 }))} />
+
+                    <br /><br />
+
+                    <label className="menu-background" htmlFor="bottom-color-g">color 2 green </label>
+                    <input type="range"
+                           id="bottom-color-g"
+                           min="0"
+                           max="100"
+                           name="bottom-color"
+                           value={bottomColor.g * 100}
+                           onChange={e => onClickChangeColor(topColor, lodashAssign({}, bottomColor, { g: parseInt(e.target.value) / 100 }))} />
+
+                    <br /><br />
+
+                    <label className="menu-background" htmlFor="bottom-color-b">color 2 blue </label>
+                    <input type="range"
+                           id="bottom-color-b"
+                           min="0"
+                           max="100"
+                           name="bottom-color"
+                           value={bottomColor.b * 100}
+                           onChange={e => onClickChangeColor(topColor, lodashAssign({}, bottomColor, { b: parseInt(e.target.value) / 100 }))} />
+
+                    <br /><br />
+
                     <button onClick={() => onChangeCameraAngle(getNewCameraAngle(cameraAngle))}>
                         rotate camera
                     </button>
