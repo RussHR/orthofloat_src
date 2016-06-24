@@ -7,7 +7,7 @@ import Stats from 'stats.js';
 import lodashThrottle from 'lodash/throttle';
 import lodashIsEqual from 'lodash/isEqual';
 
-import { makeRadiansPositive, randomWithRange, simplifyAngle } from '../../businessLogic/mathHelpers';
+import { randomWithRange, simplifyAngle } from '../../businessLogic/mathHelpers';
 import { averageRGB,
          currentColorInTween,
          getColorFromPosition,

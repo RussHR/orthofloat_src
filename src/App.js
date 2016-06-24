@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Menu from './components/Menu';
 import Orthofloat from './components/Orthofloat';
-import { getNewCameraAngle, randomRGB } from './businessLogic/threeHelpers';
+import { randomRGB } from './businessLogic/threeHelpers';
 
 export default class App extends Component {
     constructor(props) {
@@ -20,9 +20,6 @@ export default class App extends Component {
     }
 
     toggleColor() {
-        const newAngle = getNewCameraAngle(this.state.cameraAngle);
-        this.changeCameraAngle(newAngle);
-
         this.setState({
             bottomColor: randomRGB(),
             topColor: randomRGB()
@@ -45,7 +42,9 @@ export default class App extends Component {
                 <Menu isOpen={menuIsOpen}
                       onClickToggleMenu={() => this.toggleMenu()}
                       onClickToggleColor={() => this.toggleColor()}
-                      onClickToggleStats={() => this.toggleStats()} />
+                      onClickToggleStats={() => this.toggleStats()}
+                      cameraAngle={cameraAngle}
+                      onChangeCameraAngle={angle => this.changeCameraAngle(angle)} />
                 <Orthofloat bottomColor={bottomColor}
                             topColor={topColor}
                             initializeWithStats={true}

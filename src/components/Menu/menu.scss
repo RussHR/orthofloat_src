@@ -22,15 +22,10 @@
     .menu-contents {
         display: none;
         padding: 16px;
-
-        > p {
-            background-color: rgba(255, 255, 255, 0.75);
-        }
     }
     .menu-title {
         display: inline-block;
         margin: 0 35px 0 0;
-        background-color: rgba(255, 255, 255, 0.75);
     }
     .menu-close {
         position: absolute;
@@ -39,5 +34,9 @@
         padding: 16px;
         background-color: rgba(255, 255, 255, 0.5);
         cursor: pointer;
+    }
+
+    .menu-background {
+        background-color: rgba(255, 255, 255, 0.75)
     }
 }
