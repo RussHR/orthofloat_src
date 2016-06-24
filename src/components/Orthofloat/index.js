@@ -55,31 +55,11 @@ export default class Orthofloat extends Component {
         const { topColor, bottomColor } = this.props;
         const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
         const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
-        this.el.style.backgroundImage = `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
-
-        const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
-        this.setStripesColor(stripeDivs, topColorStyle, bottomColorStyle);
-    }
-
-    setStripesColor(stripeDivs, topColorStyle, bottomColorStyle) {
-        for (let i = 0; i < stripeDivs.length; i++) {
-            stripeDivs[i].style.backgroundImage =
-                `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`;
-        }
-    }
-
-    recolorStripes() {
-        const { topColor, bottomColor } = this.props;
-        const topColorStyle = (new THREE.Color(topColor.r, topColor.g, topColor.b)).getStyle();
-        const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
-
-        const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
-        this.setStripesColor(stripeDivs, topColorStyle, bottomColorStyle);
+        this.styleEl.innerText = `.orthofloat-wrapper { background-image: ${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle});} .orthofloat-stripe { background-image: ${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle});}`;
     }
 
     changeColors(nextTopColor, nextBottomColor) {
-        const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid, setStripesColor } = this;
-        const that = this;
+        const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid, styleEl, vendorPrefix } = this;
         const oldColors = mergeTopAndBottomColors(this.props.topColor, this.props.bottomColor);
         const newColors = mergeTopAndBottomColors(nextTopColor, nextBottomColor);
         const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
@@ -98,8 +78,7 @@ export default class Orthofloat extends Component {
 
                 const topColorStyle = (new THREE.Color(this.topR, this.topG, this.topB)).getStyle();
                 const bottomColorStyle = (new THREE.Color(this.bottomR, this.bottomG, this.bottomB)).getStyle();
-                that.el.style.backgroundImage = `${that.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
-                setStripesColor.call(that, stripeDivs, topColorStyle, bottomColorStyle);
+                styleEl.innerText = `.orthofloat-wrapper { background-image: ${vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle});} .orthofloat-stripe { background-image: ${vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle});}`;
             })
             .start();
     }
@@ -427,6 +406,7 @@ export default class Orthofloat extends Component {
 
         return (
             <div className={className} ref={c => this.el = c}>
+                <style ref={c => this.styleEl = c} />
                 <div className="orthofloat-stripes">
                     {stripes}
                 </div>
