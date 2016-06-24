@@ -324,7 +324,7 @@ export default class Orthofloat extends Component {
         const { windowHeight } = this.state;
         const { randomShapeMaterialTop, randomShapeMaterialBottom } = this;
 
-        for (let mesh of this.randomShapes) {
+        this.randomShapes.forEach(mesh => {
             // if shape is above top of window
             if (mesh.position.y > (windowHeight / 16 + this.meshSize * 4)) {
                 mesh.geometry = this.generateRandomGeometry();
@@ -342,16 +342,16 @@ export default class Orthofloat extends Component {
                     mesh.position.y, windowHeight, randomShapeMaterialBottom.color, randomShapeMaterialTop.color
                 );
             }
-        }
+        });
 
-        for (let mesh of this.tetras) {
+        this.tetras.forEach(mesh => {
             // if shape is above top of window
             if (mesh.position.y > (windowHeight / 16 + this.meshSize * 4)) {
                 this.repositionMeshToBottom(mesh);
             }
 
             this.moveMesh(mesh);
-        }
+        });
 
         TWEEN.update();
         this.renderer.render(this.scene, this.camera);
@@ -373,17 +373,17 @@ export default class Orthofloat extends Component {
         this.assignMeshVelocities(mesh);
 
         // give the mesh new rotation speeds
-        for (let axis of ['x', 'y', 'z']) {
-            mesh.rotationSpeed[axis] = randomWithRange(-0.01, 0.01);
-        }
+        mesh.rotationSpeed.x = randomWithRange(-0.01, 0.01);
+        mesh.rotationSpeed.y = randomWithRange(-0.01, 0.01);
+        mesh.rotationSpeed.z = randomWithRange(-0.01, 0.01);
     }
 
     moveMesh(mesh) {
         // rotate the mesh around its axes
-        for (let axis of ['x', 'y', 'z']) {
+        ['x', 'y', 'z'].forEach(axis => { 
             mesh.position[axis] += mesh[`${axis}Velocity`]; // translate the mesh
             mesh.rotation[axis] += mesh.rotationSpeed[axis]; // rotate the mesh
-        }
+        });
     }
 
     render() {
