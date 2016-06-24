@@ -3,7 +3,7 @@ import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 
-/* eslint-disable max-len */
+/* eslint-disable max-len, object-curly-spacing */
 
 const GLOBALS = {
   'process.env.NODE_ENV': JSON.stringify('production'),

@@ -38,8 +38,8 @@ describe('threeHelpers', () => {
 
     describe('getColorFromPosition', () => {
         const windowHeight = 1000;
-        const startColor = { r: 100, g: 50, b: 150};
-        const endColor = { r: 200, g: 30, b: 200};
+        const startColor = { r: 100, g: 50, b: 150 };
+        const endColor = { r: 200, g: 30, b: 200 };
 
         it('returns an interpolated value for an object halfway up the window', () => {
             const meshPositionY = 0;

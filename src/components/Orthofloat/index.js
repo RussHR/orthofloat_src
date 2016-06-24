@@ -56,7 +56,7 @@ export default class Orthofloat extends Component {
         const bottomColorStyle = (new THREE.Color(bottomColor.r, bottomColor.g, bottomColor.b)).getStyle();
         const wrapperBgImage = `${this.vendorPrefix}linear-gradient(${topColorStyle}, ${bottomColorStyle})`;
         const stripeBgImage = `${this.vendorPrefix}linear-gradient(${bottomColorStyle}, ${topColorStyle})`;
-        this.styleEl.innerText = 
+        this.styleEl.innerText =
             `.orthofloat-wrapper { background-image: ${wrapperBgImage};}
              .orthofloat-stripe { background-image: ${stripeBgImage};}`;
     }
@@ -81,7 +81,7 @@ export default class Orthofloat extends Component {
                 );
 
                 setBackgroundColor(
-                    { r: this.topR, g: this.topG, b: this.topB},
+                    { r: this.topR, g: this.topG, b: this.topB },
                     { r: this.bottomR, g: this.bottomG, b: this.bottomB }
                 );
             })
@@ -225,7 +225,7 @@ export default class Orthofloat extends Component {
     initializeTetrahedrons() {
         const tetraGeometry = new THREE.TetrahedronGeometry(this.meshSize);
         const color = new THREE.Color(0xff6ba9);
-        const tetraMaterial = new THREE.MeshBasicMaterial({color});
+        const tetraMaterial = new THREE.MeshBasicMaterial({ color });
         this.tetras = [];
         for (let i = 0; i < 50; i++) {
             const tetra = new THREE.Mesh(tetraGeometry, tetraMaterial);
@@ -386,7 +386,7 @@ export default class Orthofloat extends Component {
 
     moveMesh(mesh) {
         // rotate the mesh around its axes
-        ['x', 'y', 'z'].forEach(axis => { 
+        ['x', 'y', 'z'].forEach(axis => {
             mesh.position[axis] += mesh[`${axis}Velocity`]; // translate the mesh
             mesh.rotation[axis] += mesh.rotationSpeed[axis]; // rotate the mesh
         });
