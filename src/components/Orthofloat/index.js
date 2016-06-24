@@ -62,7 +62,6 @@ export default class Orthofloat extends Component {
         const { randomShapeMaterialBottom, randomShapeMaterialTop, randomShapeMaterialMid, styleEl, vendorPrefix } = this;
         const oldColors = mergeTopAndBottomColors(this.props.topColor, this.props.bottomColor);
         const newColors = mergeTopAndBottomColors(nextTopColor, nextBottomColor);
-        const stripeDivs = this.el.getElementsByClassName('orthofloat-stripe');
 
         const tween = new TWEEN.Tween(oldColors)
             .to(newColors, this.tweenLength)
@@ -380,8 +379,6 @@ export default class Orthofloat extends Component {
     }
 
     moveMesh(mesh) {
-        const { windowHeight, windowWidth } = this.state;
-
         // rotate the mesh around its axes
         for (let axis of ['x', 'y', 'z']) {
             mesh.position[axis] += mesh[`${axis}Velocity`]; // translate the mesh
@@ -390,7 +387,7 @@ export default class Orthofloat extends Component {
     }
 
     render() {
-        const { windowHeight, windowWidth } = this.state;
+        const { windowWidth } = this.state;
         const className = classNames('orthofloat-wrapper', { 'show-stats': this.props.showStats });
 
         // stripes

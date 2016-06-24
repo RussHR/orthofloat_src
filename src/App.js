@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Menu from './components/Menu';
 import Orthofloat from './components/Orthofloat';
-import { randomWithRange } from './businessLogic/mathHelpers';
-import { averageRGB, getNewCameraAngle, randomRGB } from './businessLogic/threeHelpers';
+import { getNewCameraAngle, randomRGB } from './businessLogic/threeHelpers';
 
 export default class App extends Component {
     constructor(props) {
