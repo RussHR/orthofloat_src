@@ -30,7 +30,7 @@ export default class App extends Component {
     }
 
     changeCameraAngle(cameraAngle) {
-        this.setState({ cameraAngle }, () => this.orthofloatEl.moveCamera(cameraAngle));
+        this.setState({ cameraAngle });
     }
 
     toggleStats() {
@@ -38,7 +38,7 @@ export default class App extends Component {
     }
 
     render() {
-        const { menuIsOpen, bottomColor, showStats, topColor } = this.state;
+        const { menuIsOpen, bottomColor, showStats, topColor, cameraAngle } = this.state;
 
         return (
             <div>
@@ -50,7 +50,7 @@ export default class App extends Component {
                             topColor={topColor}
                             initializeWithStats={true}
                             showStats={showStats}
-                            ref={(c) => this.orthofloatEl = c} />
+                            cameraAngle={cameraAngle} />
             </div>
         );
     }

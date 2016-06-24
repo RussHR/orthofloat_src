@@ -45,6 +45,10 @@ export default class Orthofloat extends Component {
             || !lodashIsEqual(nextProps.topColor, this.props.topColor)) {
             this.changeColors(nextProps.topColor, nextProps.bottomColor);
         }
+
+        if (nextProps.cameraAngle !== this.props.cameraAngle) {
+            this.moveCamera(nextProps.cameraAngle);
+        }
     }
 
     componentWillUnmount() {
@@ -430,12 +434,14 @@ Orthofloat.propTypes = {
         b: PropTypes.number.isRequired
     }),
     initializeWithStats: PropTypes.bool,
-    showStats: PropTypes.bool
+    showStats: PropTypes.bool,
+    cameraAngle: PropTypes.number
 };
 
 Orthofloat.defaultProps = {
     bottomColor: randomRGB(),
     topColor: randomRGB(),
     initializeWithStats: false,
-    showStats: false
+    showStats: false,
+    cameraAngle: 0
 };
