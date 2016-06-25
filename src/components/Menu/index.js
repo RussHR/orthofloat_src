@@ -42,9 +42,9 @@ export default class Menu extends Component {
 
                     <br /><br />
 
-                    <label className="menu-background" htmlFor="top-color-r">color 1 red </label>
+                    <label className="menu-background" htmlFor="top-color-h">color 1 hue </label>
                     <input type="range"
-                           id="top-color-r"
+                           id="top-color-h"
                            min="0"
                            max="100"
                            name="top-color"
@@ -53,9 +53,9 @@ export default class Menu extends Component {
 
                     <br /><br />
 
-                    <label className="menu-background" htmlFor="top-color-g">color 1 green </label>
+                    <label className="menu-background" htmlFor="top-color-s">color 1 saturation </label>
                     <input type="range"
-                           id="top-color-g"
+                           id="top-color-s"
                            min="0"
                            max="100"
                            name="top-color"
@@ -64,9 +64,9 @@ export default class Menu extends Component {
 
                     <br /><br />
 
-                    <label className="menu-background" htmlFor="top-color-b">color 1 blue </label>
+                    <label className="menu-background" htmlFor="top-color-l">color 1 lightness </label>
                     <input type="range"
-                           id="top-color-b"
+                           id="top-color-l"
                            min="0"
                            max="100"
                            name="top-color"
@@ -75,9 +75,9 @@ export default class Menu extends Component {
 
                     <br /><br />
 
-                    <label className="menu-background" htmlFor="bottom-color-r">color 2 red </label>
+                    <label className="menu-background" htmlFor="bottom-color-h">color 2 hue </label>
                     <input type="range"
-                           id="bottom-color-r"
+                           id="bottom-color-h"
                            min="0"
                            max="100"
                            name="bottom-color"
@@ -86,9 +86,9 @@ export default class Menu extends Component {
 
                     <br /><br />
 
-                    <label className="menu-background" htmlFor="bottom-color-g">color 2 green </label>
+                    <label className="menu-background" htmlFor="bottom-color-s">color 2 saturation </label>
                     <input type="range"
-                           id="bottom-color-g"
+                           id="bottom-color-s"
                            min="0"
                            max="100"
                            name="bottom-color"
@@ -97,9 +97,9 @@ export default class Menu extends Component {
 
                     <br /><br />
 
-                    <label className="menu-background" htmlFor="bottom-color-b">color 2 blue </label>
+                    <label className="menu-background" htmlFor="bottom-color-l">color 2 lightness </label>
                     <input type="range"
-                           id="bottom-color-b"
+                           id="bottom-color-l"
                            min="0"
                            max="100"
                            name="bottom-color"
