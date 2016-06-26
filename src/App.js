@@ -41,7 +41,7 @@ export default class App extends Component {
             <div>
                 <Menu isOpen={menuIsOpen}
                       onClickToggleMenu={() => this.toggleMenu()}
-                      onClickChangeColor={(topColor, bottomColor) => this.changeColor(topColor, bottomColor)}
+                      onChangeColor={(topColor, bottomColor) => this.changeColor(topColor, bottomColor)}
                       onClickToggleStats={() => this.toggleStats()}
                       cameraAngle={cameraAngle}
                       onChangeCameraAngle={angle => this.changeCameraAngle(angle)}
