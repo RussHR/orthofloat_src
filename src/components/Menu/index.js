@@ -9,7 +9,7 @@ import './menu.scss';
 export default function Menu(props) {
     const { isOpen,
             onClickToggleMenu,
-            onClickChangeColor,
+            onChangeColor,
             onClickToggleStats,
             cameraAngle,
             onChangeCameraAngle,
@@ -35,7 +35,7 @@ export default function Menu(props) {
                     click <a href="https://github.com/RussHR/orthofloat_src" target="_blank">here</a> for the code.
                 </p>
 
-                <button onClick={() => onClickChangeColor(randomRGB(), randomRGB())}>
+                <button onClick={() => onChangeColor(randomRGB(), randomRGB())}>
                     toggle color
                 </button>
 
@@ -48,7 +48,7 @@ export default function Menu(props) {
                        max="100"
                        name="top-color"
                        value={topColor.r * 100}
-                       onChange={e => onClickChangeColor(lodashAssign({}, topColor, { r: parseInt(e.target.value) / 100 }), bottomColor)} />
+                       onChange={e => onChangeColor(lodashAssign({}, topColor, { r: parseInt(e.target.value) / 100 }), bottomColor)} />
 
                 <br /><br />
 
@@ -59,7 +59,7 @@ export default function Menu(props) {
                        max="100"
                        name="top-color"
                        value={topColor.g * 100}
-                       onChange={e => onClickChangeColor(lodashAssign({}, topColor, { g: parseInt(e.target.value) / 100 }), bottomColor)} />
+                       onChange={e => onChangeColor(lodashAssign({}, topColor, { g: parseInt(e.target.value) / 100 }), bottomColor)} />
 
                 <br /><br />
 
@@ -70,7 +70,7 @@ export default function Menu(props) {
                        max="100"
                        name="top-color"
                        value={topColor.b * 100}
-                       onChange={e => onClickChangeColor(lodashAssign({}, topColor, { b: parseInt(e.target.value) / 100 }), bottomColor)} />
+                       onChange={e => onChangeColor(lodashAssign({}, topColor, { b: parseInt(e.target.value) / 100 }), bottomColor)} />
 
                 <br /><br />
 
@@ -81,7 +81,7 @@ export default function Menu(props) {
                        max="100"
                        name="bottom-color"
                        value={bottomColor.r * 100}
-                       onChange={e => onClickChangeColor(topColor, lodashAssign({}, bottomColor, { r: parseInt(e.target.value) / 100 }))} />
+                       onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { r: parseInt(e.target.value) / 100 }))} />
 
                 <br /><br />
 
@@ -92,7 +92,7 @@ export default function Menu(props) {
                        max="100"
                        name="bottom-color"
                        value={bottomColor.g * 100}
-                       onChange={e => onClickChangeColor(topColor, lodashAssign({}, bottomColor, { g: parseInt(e.target.value) / 100 }))} />
+                       onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { g: parseInt(e.target.value) / 100 }))} />
 
                 <br /><br />
 
@@ -103,7 +103,7 @@ export default function Menu(props) {
                        max="100"
                        name="bottom-color"
                        value={bottomColor.b * 100}
-                       onChange={e => onClickChangeColor(topColor, lodashAssign({}, bottomColor, { b: parseInt(e.target.value) / 100 }))} />
+                       onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { b: parseInt(e.target.value) / 100 }))} />
 
                 <br /><br />
 
@@ -132,10 +132,14 @@ export default function Menu(props) {
     );
 }
 
+function rgbToHSL({ r, g, b }) {
+
+}
+
 Menu.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onClickToggleMenu: PropTypes.func.isRequired,
-    onClickChangeColor: PropTypes.func.isRequired,
+    onChangeColor: PropTypes.func.isRequired,
     onClickToggleStats: PropTypes.func.isRequired,
     cameraAngle: PropTypes.number.isRequired,
     onChangeCameraAngle: PropTypes.func.isRequired,
