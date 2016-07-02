@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import bowser from 'bowser';
+
 import Menu from './components/Menu';
 import Orthofloat from './components/Orthofloat';
 import { randomRGB } from './businessLogic/threeHelpers';
@@ -46,7 +48,8 @@ export default class App extends Component {
                       cameraAngle={cameraAngle}
                       onChangeCameraAngle={angle => this.changeCameraAngle(angle)}
                       topColor={topColor}
-                      bottomColor={bottomColor} />
+                      bottomColor={bottomColor}
+                      isMobile={bowser.mobile || bowser.tablet}/>
                 <Orthofloat bottomColor={bottomColor}
                             topColor={topColor}
                             initializeWithStats={true}

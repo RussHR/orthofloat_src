@@ -14,8 +14,10 @@ export default function Menu(props) {
             cameraAngle,
             onChangeCameraAngle,
             topColor,
-            bottomColor } = props;
+            bottomColor,
+            isMobile } = props;
     const menuClassNames = classNames({ 'is-open': isOpen });
+    const topColorRed = isMobile ? null : <input type="number" min="0" max="255" value={topColor.r * 255} />
 
     return (
         <div id="menu" className={menuClassNames}>
@@ -45,11 +47,11 @@ export default function Menu(props) {
                 <input type="range"
                        id="top-color-r"
                        min="0"
-                       max="100"
+                       max="255"
                        name="top-color"
-                       value={topColor.r * 100}
-                       onChange={e => onChangeColor(lodashAssign({}, topColor, { r: parseInt(e.target.value) / 100 }), bottomColor)} />
-
+                       value={topColor.r * 255}
+                       onChange={e => onChangeColor(lodashAssign({}, topColor, { r: parseInt(e.target.value) / 255 }), bottomColor)} />
+                {topColorRed}
                 <br /><br />
 
                 <label className="menu-background" htmlFor="top-color-g">color 1 green </label>
@@ -148,5 +150,6 @@ Menu.propTypes = {
         r: PropTypes.number.isRequired,
         g: PropTypes.number.isRequired,
         b: PropTypes.number.isRequired
-    })
+    }),
+    isMobile: PropTypes.bool.isRequired
 };
