@@ -17,7 +17,12 @@ export default function Menu(props) {
             bottomColor,
             isMobile } = props;
     const menuClassNames = classNames({ 'is-open': isOpen });
-    const topColorRed = isMobile ? null : <input type="number" min="0" max="255" value={topColor.r * 255} />
+    const topColorRed = isMobile ? null : <input type="number" min="0" max="255" name="top-color" value={topColor.r * 255} />;
+    const topColorGreen = isMobile ? null : <input type="number" min="0" max="255" name="top-color" value={topColor.g * 255} />;
+    const topColorBlue = isMobile ? null : <input type="number" min="0" max="255" name="top-color" value={topColor.b * 255} />;
+    const bottomColorRed = isMobile ? null : <input type="number" min="0" max="255" name="bottom-color" value={bottomColor.r * 255} />;
+    const bottomColorGreen = isMobile ? null : <input type="number" min="0" max="255" name="bottom-color" value={bottomColor.g * 255} />;
+    const bottomColorBlue = isMobile ? null : <input type="number" min="0" max="255" name="bottom-color" value={bottomColor.b * 255} />;
 
     return (
         <div id="menu" className={menuClassNames}>
@@ -62,7 +67,7 @@ export default function Menu(props) {
                        name="top-color"
                        value={topColor.g * 100}
                        onChange={e => onChangeColor(lodashAssign({}, topColor, { g: parseInt(e.target.value) / 100 }), bottomColor)} />
-
+                {topColorGreen}
                 <br /><br />
 
                 <label className="menu-background" htmlFor="top-color-b">color 1 blue </label>
@@ -73,7 +78,7 @@ export default function Menu(props) {
                        name="top-color"
                        value={topColor.b * 100}
                        onChange={e => onChangeColor(lodashAssign({}, topColor, { b: parseInt(e.target.value) / 100 }), bottomColor)} />
-
+                {topColorBlue}
                 <br /><br />
 
                 <label className="menu-background" htmlFor="bottom-color-r">color 2 red </label>
@@ -84,7 +89,7 @@ export default function Menu(props) {
                        name="bottom-color"
                        value={bottomColor.r * 100}
                        onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { r: parseInt(e.target.value) / 100 }))} />
-
+                {bottomColorRed}
                 <br /><br />
 
                 <label className="menu-background" htmlFor="bottom-color-g">color 2 green </label>
@@ -95,7 +100,7 @@ export default function Menu(props) {
                        name="bottom-color"
                        value={bottomColor.g * 100}
                        onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { g: parseInt(e.target.value) / 100 }))} />
-
+                {bottomColorGreen}
                 <br /><br />
 
                 <label className="menu-background" htmlFor="bottom-color-b">color 2 blue </label>
@@ -106,7 +111,7 @@ export default function Menu(props) {
                        name="bottom-color"
                        value={bottomColor.b * 100}
                        onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { b: parseInt(e.target.value) / 100 }))} />
-
+                {bottomColorBlue}
                 <br /><br />
 
                 <button onClick={() => onChangeCameraAngle(getNewCameraAngle(cameraAngle))}>
