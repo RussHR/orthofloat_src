@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
-import lodashAssign from 'lodash/assign';
 
+import ColorInput from '../ColorInput';
 import { getNewCameraAngle, randomRGB } from '../../businessLogic/threeHelpers';
 
 import './menu.scss';
@@ -17,6 +17,21 @@ export default function Menu(props) {
             bottomColor,
             isMobile } = props;
     const menuClassNames = classNames({ 'is-open': isOpen });
+
+    const colorInputs = [];
+    ['top', 'bottom'].forEach((orientation, orientationIndex) => {
+        ['red', 'green', 'blue'].forEach((color, colorIndex) => {
+            colorInputs.push(
+                <ColorInput orientation={orientation}
+                            color={color}
+                            topColor={topColor}
+                            bottomColor={bottomColor}
+                            onChange={onChangeColor}
+                            isMobile={isMobile}
+                            key={`${orientationIndex}${colorIndex}`} />
+            );
+        });
+    });
 
     return (
         <div id="menu" className={menuClassNames}>
@@ -42,89 +57,7 @@ export default function Menu(props) {
 
                 <br /><br />
 
-                <label className="menu-background" htmlFor="top-color-r">color 1 red </label>
-                <input type="range"
-                       id="top-color-r"
-                       min="0"
-                       max="255"
-                       name="top-color"
-                       value={topColor.r * 255}
-                       onChange={e => onChangeColor(lodashAssign({}, topColor, { r: parseInt(e.target.value) / 255 }), bottomColor)} />
-                <ColorNumber isMobile={isMobile}
-                             name="top-color"
-                             color={topColor.r * 255}
-                             onChange={e => onChangeColor(lodashAssign({}, topColor, { r: parseInt(e.target.value || 0) / 255 }), bottomColor)} />
-                <br /><br />
-
-                <label className="menu-background" htmlFor="top-color-g">color 1 green </label>
-                <input type="range"
-                       id="top-color-g"
-                       min="0"
-                       max="255"
-                       name="top-color"
-                       value={topColor.g * 255}
-                       onChange={(e) => onChangeColor(lodashAssign({}, topColor, { g: parseInt(e.target.value) / 255 }), bottomColor)} />
-                <ColorNumber isMobile={isMobile}
-                             name="top-color"
-                             color={topColor.g * 255}
-                             onChange={e => onChangeColor(lodashAssign({}, topColor, { g: parseInt(e.target.value || 0) / 255 }), bottomColor)} />
-                <br /><br />
-
-                <label className="menu-background" htmlFor="top-color-b">color 1 blue </label>
-                <input type="range"
-                       id="top-color-b"
-                       min="0"
-                       max="255"
-                       name="top-color"
-                       value={topColor.b * 255}
-                       onChange={e => onChangeColor(lodashAssign({}, topColor, { b: parseInt(e.target.value) / 255 }), bottomColor)} />
-                <ColorNumber isMobile={isMobile}
-                             name="top-color"
-                             color={topColor.b * 255}
-                             onChange={e => onChangeColor(lodashAssign({}, topColor, { b: parseInt(e.target.value || 0) / 255 }), bottomColor)} />
-                <br /><br />
-
-                <label className="menu-background" htmlFor="bottom-color-r">color 2 red </label>
-                <input type="range"
-                       id="bottom-color-r"
-                       min="0"
-                       max="255"
-                       name="bottom-color"
-                       value={bottomColor.r * 255}
-                       onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { r: parseInt(e.target.value) / 255 }))} />
-                <ColorNumber isMobile={isMobile}
-                             name="bottom-color"
-                             color={bottomColor.r * 255}
-                             onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { r: parseInt(e.target.value || 0) / 255 }))} />
-                <br /><br />
-
-                <label className="menu-background" htmlFor="bottom-color-g">color 2 green </label>
-                <input type="range"
-                       id="bottom-color-g"
-                       min="0"
-                       max="255"
-                       name="bottom-color"
-                       value={bottomColor.g * 255}
-                       onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { g: parseInt(e.target.value) / 255 }))} />
-                <ColorNumber isMobile={isMobile}
-                             name="bottom-color"
-                             color={bottomColor.g * 255}
-                             onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { g: parseInt(e.target.value || 0) / 255 }))} />
-                <br /><br />
-
-                <label className="menu-background" htmlFor="bottom-color-b">color 2 blue </label>
-                <input type="range"
-                       id="bottom-color-b"
-                       min="0"
-                       max="255"
-                       name="bottom-color"
-                       value={bottomColor.b * 255}
-                       onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { b: parseInt(e.target.value) / 255 }))} />
-                <ColorNumber isMobile={isMobile}
-                             name="bottom-color"
-                             color={bottomColor.b * 255}
-                             onChange={e => onChangeColor(topColor, lodashAssign({}, bottomColor, { b: parseInt(e.target.value || 0) / 255 }))} />
-                <br /><br />
+                {colorInputs}
 
                 <button onClick={() => onChangeCameraAngle(getNewCameraAngle(cameraAngle))}>
                     rotate camera
@@ -148,21 +81,6 @@ export default function Menu(props) {
                 </button>
             </div>
         </div>
-    );
-}
-
-function ColorNumber({ isMobile, name, color, onChange }) {
-    if (isMobile) {
-        return null;
-    }
-
-    return (
-        <input type="number"
-               min="0"
-               max="255"
-               name={name}
-               value={color}
-               onChange={onChange} />
     );
 }
 
