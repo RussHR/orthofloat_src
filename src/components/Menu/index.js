@@ -18,6 +18,7 @@ export default function Menu(props) {
             bottomColor,
             isMobile } = props;
     const menuClassNames = classNames({ 'is-open': isOpen, 'is-hidden': isHidden });
+    const controlClassNames = classNames({ 'is-hidden': isMobile });
 
     const colorInputs = [];
     ['top', 'bottom'].forEach((orientation, orientationIndex) => {
@@ -50,6 +51,10 @@ export default function Menu(props) {
                     made by <a href="http://www.russrinzler.com" target="_blank">Russ Rinzler</a>.
                     <br />
                     click <a href="https://github.com/RussHR/orthofloat_src" target="_blank">here</a> for the code.
+                    <br />
+                    <span className={controlClassNames}>
+                        H: toggle menu visibility
+                    </span>
                 </p>
 
                 <button onClick={() => onChangeColor(randomRGB(), randomRGB())}>

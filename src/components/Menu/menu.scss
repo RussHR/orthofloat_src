@@ -17,9 +17,6 @@
             display: block;
         }
     }
-    &.is-hidden {
-        display: none;
-    }
     .menu-open {
         padding: 8px;
         cursor: pointer;
@@ -45,4 +42,8 @@
     .menu-background {
         background-color: rgba(255, 255, 255, 0.75)
     }
+}
+
+.is-hidden {
+    display: none;
 }
