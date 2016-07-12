@@ -17,25 +17,28 @@ export default class App extends Component {
             cameraAngle: 0
         };
 
-        this._toggleMenuVisibility = this.toggleMenuVisibility.bind(this);
+        this._handleKeyup = this.handleKeyup.bind(this);
     }
 
     componentDidMount() {
-        window.addEventListener('keyup', this._toggleMenuVisibility);
+        window.addEventListener('keyup', this._handleKeyup);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('keyup', this._toggleMenuVisibility);
+        window.removeEventListener('keyup', this._handleKeyup);
+    }
+
+    handleKeyup(e) {
+        if (e.keyCode === 72) { // this is the 'H' key
+            this.setState({ menuIsHidden: !this.state.menuIsHidden });
+        } else if (e.keyCode === 74) {
+            this.changeColor(randomRGB(), randomRGB());
+        }
+
     }
 
     toggleMenu() {
         this.setState({ menuIsOpen: !this.state.menuIsOpen });
-    }
-
-    toggleMenuVisibility(e) {
-        if (e.keyCode === 72) { // this is the 'H' key
-            this.setState({ menuIsHidden: !this.state.menuIsHidden });
-        }
     }
 
     changeColor(topColor, bottomColor) {

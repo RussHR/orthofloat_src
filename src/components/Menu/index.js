@@ -53,12 +53,16 @@ export default function Menu(props) {
                     click <a href="https://github.com/RussHR/orthofloat_src" target="_blank">here</a> for the code.
                     <br />
                     <span className={controlClassNames}>
-                        H: toggle menu visibility
+                        controls
+                        <br />
+                        h: toggle menu visibility
+                        <br />
+                        j: set random color
                     </span>
                 </p>
 
                 <button onClick={() => onChangeColor(randomRGB(), randomRGB())}>
-                    toggle color
+                    random color
                 </button>
 
                 <br /><br />
