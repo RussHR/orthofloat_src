@@ -58,6 +58,12 @@ export default function Menu(props) {
                         h: toggle menu visibility
                         <br />
                         j: set random color
+                        <br />
+                        l: set random camera angle
+                        <br />
+                        left: camera angle -10 deg
+                        <br />
+                        right: camera angle +10 deg
                     </span>
                 </p>
 

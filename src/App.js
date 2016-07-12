@@ -4,6 +4,7 @@ import bowser from 'bowser';
 import Menu from './components/Menu';
 import Orthofloat from './components/Orthofloat';
 import { randomRGB } from './businessLogic/threeHelpers';
+import { randomWithRange } from './businessLogic/mathHelpers';
 
 export default class App extends Component {
     constructor(props) {
@@ -29,12 +30,26 @@ export default class App extends Component {
     }
 
     handleKeyup(e) {
-        if (e.keyCode === 72) { // this is the 'H' key
-            this.setState({ menuIsHidden: !this.state.menuIsHidden });
-        } else if (e.keyCode === 74) {
-            this.changeColor(randomRGB(), randomRGB());
+        let { cameraAngle } = this.state;
+        switch (e.keyCode) {
+            case 72: // 'h' key
+                this.setState({ menuIsHidden: !this.state.menuIsHidden });
+                break;
+            case 74: // 'k' key
+                this.changeColor(randomRGB(), randomRGB());
+                break;
+            case 76: // 'l' key
+                this.setState({ cameraAngle: randomWithRange(0, 360) });
+                break;
+            case 37: // left key
+                cameraAngle = (cameraAngle - 10 > 0) ? (cameraAngle - 10) : (cameraAngle + 350);
+                this.setState({ cameraAngle });
+                break;
+            case 39: // right key
+                cameraAngle = (cameraAngle + 10 < 360) ? (cameraAngle + 10) : (cameraAngle - 350);
+                this.setState({ cameraAngle });
+                break;
         }
-
     }
 
     toggleMenu() {
