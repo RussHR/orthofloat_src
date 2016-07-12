@@ -8,6 +8,7 @@ import './menu.scss';
 
 export default function Menu(props) {
     const { isOpen,
+            isHidden,
             onClickToggleMenu,
             onChangeColor,
             onClickToggleStats,
@@ -16,7 +17,7 @@ export default function Menu(props) {
             topColor,
             bottomColor,
             isMobile } = props;
-    const menuClassNames = classNames({ 'is-open': isOpen });
+    const menuClassNames = classNames({ 'is-open': isOpen, 'is-hidden': isHidden });
 
     const colorInputs = [];
     ['top', 'bottom'].forEach((orientation, orientationIndex) => {
@@ -86,6 +87,7 @@ export default function Menu(props) {
 
 Menu.propTypes = {
     isOpen: PropTypes.bool.isRequired,
+    isHidden: PropTypes.bool.isRequired,
     onClickToggleMenu: PropTypes.func.isRequired,
     onChangeColor: PropTypes.func.isRequired,
     onClickToggleStats: PropTypes.func.isRequired,

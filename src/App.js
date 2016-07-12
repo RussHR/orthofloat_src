@@ -10,15 +10,32 @@ export default class App extends Component {
         super(props);
         this.state = {
             menuIsOpen: false,
+            menuIsHidden: false,
             bottomColor: randomRGB(),
             topColor: randomRGB(),
             showStats: false,
             cameraAngle: 0
         };
+
+        this._toggleMenuVisibility = this.toggleMenuVisibility.bind(this);
+    }
+
+    componentDidMount() {
+        window.addEventListener('keyup', this._toggleMenuVisibility);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('keyup', this._toggleMenuVisibility);
     }
 
     toggleMenu() {
         this.setState({ menuIsOpen: !this.state.menuIsOpen });
+    }
+
+    toggleMenuVisibility(e) {
+        if (e.keyCode === 72) { // this is the 'H' key
+            this.setState({ menuIsHidden: !this.state.menuIsHidden });
+        }
     }
 
     changeColor(topColor, bottomColor) {
@@ -37,11 +54,12 @@ export default class App extends Component {
     }
 
     render() {
-        const { menuIsOpen, bottomColor, showStats, topColor, cameraAngle } = this.state;
+        const { menuIsOpen, menuIsHidden, bottomColor, showStats, topColor, cameraAngle } = this.state;
 
         return (
             <div>
                 <Menu isOpen={menuIsOpen}
+                      isHidden={menuIsHidden}
                       onClickToggleMenu={() => this.toggleMenu()}
                       onChangeColor={(topColor, bottomColor) => this.changeColor(topColor, bottomColor)}
                       onClickToggleStats={() => this.toggleStats()}

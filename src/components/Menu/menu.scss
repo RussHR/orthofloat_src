@@ -17,6 +17,9 @@
             display: block;
         }
     }
+    &.is-hidden {
+        display: none;
+    }
     .menu-open {
         padding: 8px;
         cursor: pointer;
