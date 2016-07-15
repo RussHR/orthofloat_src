@@ -55,9 +55,9 @@ export default function Menu(props) {
                     <span className={controlClassNames}>
                         controls
                         <br />
-                        h: toggle menu visibility
+                        j: toggle menu visibility
                         <br />
-                        j: set random color
+                        k: set random color
                         <br />
                         l: set random camera angle
                         <br />

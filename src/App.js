@@ -32,10 +32,10 @@ export default class App extends Component {
     handleKeyup(e) {
         let { cameraAngle } = this.state;
         switch (e.keyCode) {
-            case 72: // 'h' key
+            case 74: // 'j' key
                 this.setState({ menuIsHidden: !this.state.menuIsHidden });
                 break;
-            case 74: // 'k' key
+            case 75: // 'k' key
                 this.changeColor(randomRGB(), randomRGB());
                 break;
             case 76: // 'l' key
