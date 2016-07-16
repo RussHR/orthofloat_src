@@ -14,7 +14,36 @@ import { averageRGB,
          mergeTopAndBottomColors,
          randomRGB } from '../../businessLogic/threeHelpers';
 
-import './orthofloat.scss';
+const inlineStyles = (`
+    .orthofloat-wrapper {
+        position: relative;
+        max-height: 100vh;
+        max-width: 100vw;
+        overflow: hidden;
+    }
+    .orthofloat-wrapper > div:not(.orthofloat-stripes) {
+        display: none;
+    }
+    .orthofloat-wrapper > canvas {
+        display: block;
+        position: relative;
+    }
+    .orthofloat-wrapper.show-stats > div {
+        display: block;
+    }
+    .orthofloat-wrapper .orthofloat-stripes {
+        display: block;
+        position: absolute;
+        height: 100%;
+        max-height: 100vh;
+        min-width: calc(100% + 100px);
+        overflow: hidden;
+    }
+    .orthofloat-wrapper .orthofloat-stripe {
+        display: inline-block;
+        height: 100%;
+    }
+`);
 
 export default class Orthofloat extends Component {
     constructor(props) {
@@ -413,6 +442,7 @@ export default class Orthofloat extends Component {
 
         return (
             <div className={className} ref={c => this.el = c}>
+                <style>{inlineStyles}</style>
                 <style ref={c => this.styleEl = c} />
                 <div className="orthofloat-stripes">
                     {stripes}

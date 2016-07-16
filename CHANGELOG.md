@@ -1,6 +1,11 @@
 orthofloat changelog
 =========
 
+#### 1.0.0
+* takes new props: bottomColor, topColor, cameraAngle
+* now displays with gradient stripes in background
+* exports with helper functions randomRGB and randomWithRange
+
 #### 0.2.2
 * updated renderer.setClearColor params
 

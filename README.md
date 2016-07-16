@@ -7,20 +7,33 @@ a React component that lets you view floating shapes in orthographic space by us
 
     npm install orthofloat
 
+## importing
+
+### es6
+
+    import Orthofloat, { randomRGB, randomWithRange } from 'orthofloat';
+
+### non-es6
+
+    var Orthofloat = require('orthofloat').default;
+    var randomRGB = require('orthofloat').randomRGB;
+    var randomWithRange = require('orthofloat').randomWithRange;
+
 ## usage
 
-    var Orthofloat = require('orthofloat');
+    <Orthofloat />
 
-    <Orthofloat hue={0.5} />
-
-a hue of 0.5 results in shapes that are cyan.
+    var color = randomRGB(); // returns { r: Math.random(), g: Math.random(), b: Math.random() }
+    var randNum = randomWithRange(0, 5); // returns a float from 0 up to but not including 5
 
 ### props
 prop | type | default value | description
 --- | --- | --- | ---
-hue | number | 0.35714285714285715 | a value between 0 and 1 that corresponds to an H (in HSL) value from 0 to 360
-initializeWithStats | bool | false | allows the fps/ms stats screen to be toggled in the upper left corner
+bottomColor | object | { r: Math.random(), g: Math.random(), b: Math.random() } | object with values from 0 to 1 that correspond to the bottom color of the first stripe
+topColor | object | { r: Math.random(), g: Math.random(), b: Math.random() } | object with values from 0 to 1 that correspond to the top color of the first stripe
 showStats | bool | false | toggles visibility of fps/ms, does nothing if initializeWithStats is not set to true
+initializeWithStats | bool | false | enables toggling of stats with showStats prop
+cameraAngle | number | 0 | angle of the camera looking at the scene
 
 ## example
 [russrinzler.com/orthofloat](http://www.russrinzler.com/orthofloat)
